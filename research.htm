@@ -1,3 +1,36 @@
+
+Skip to content
+Pull requests
+Issues
+Marketplace
+Explore
+@alemanchris
+alemanchris /
+alemanchris.github.io
+
+1
+0
+
+    0
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+
+    Settings
+
+alemanchris.github.io/index.html
+@alemanchris
+alemanchris Update index.html
+Latest commit c2dd438 2 minutes ago
+History
+1 contributor
+252 lines (207 sloc) 8.29 KB
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 
@@ -120,29 +153,24 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800|Julius+Sans+One' rel='stylesheet' type='text/css'>                                    
         
     <!-- CSS STYLES -->
-    <link href="Styles/mystyles.css?v=2.0" rel=StyleSheet>
+    <link href="Styles/mystyles.css" rel=StyleSheet>
 
-    <style>
+   <style>
 		body, html {
 			height: 100%;
 		}
 		.bgimg {
-			background-position: 20% 20%;
-			background-size: cover;
-			background-image: url("Images/photo_chris_zoom.jpg");
-			min-height: 50%;
+			background-position: 10% 35%;
+			background-size: 600px;
+			background-image: url("Images/condor2.jpg");
+			min-height: 25%;
 		}
-		@media only screen and (min-width: 300px) {
-			.bgimg {
-				background-position: 20% 10%;
-				background-size: cover;
-				background-image: url("Images/condor2.jpg");
-                min-height: 45%;
-			}
-		}		.menu {
+	  		.menu {
 			display: none;
 		}
     </style>
+ 
+ 
     
 </head>
     
@@ -154,22 +182,22 @@
     <!-- Links (sit on top and menu on small screens) -->
     <div class="w3-bar-item">
 		<div class="w3-row w3-padding w3-white">
-            <a href="index.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">Home</a>
-			<a href="research.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">Research</a>
-			<a href="cv.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">CV</a>
-			<a href="teaching.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">Teaching</a>
-			<a href="contact.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">Contact</a>
+            <a href="index.html" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-pale-blue w3-col s1">Home</a>
+			<a href="research.html" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-pale-blue w3-col s1">Research</a>
+			<a href="cv.html" class="w3-bar-item w3-button w3-hide-small w3-block w3-text--pale-blue w3-col s1">CV</a>
+			<a href="teaching.html" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-pale-blue w3-col s1">Teaching</a>
+			<a href="contact.html" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-pale-blue w3-col s1">Contact</a>
 			<a href="javascript:void(0)" class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large"
 			   onclick="navibar()" title="Toggle Navigation Menu">&#9776;</a>
 		</div>
 
 		<!-- Navbar on small screens -->
 		<div id="navibar" class="w3-bar-block w3-hide w3-hide-large w3-hide-medium w3-white">
-            <a href="index.htm" class="w3-bar-item w3-button w3-block w3-text-movepurple w3-col s1">Home</a>
-			<a href="research.htm" class="w3-bar-item w3-button w3-block w3-text-movepurple w3-col s1">Research</a>
-			<a href="cv.htm" class="w3-bar-item w3-button w3-block w3-text-movepurple w3-col s1">CV</a>
-			<a href="teaching.htm" class="w3-bar-item w3-button w3-block w3-text-movepurple w3-col s1">Teaching</a>
-			<a href="contact.htm" class="w3-bar-item w3-button w3-block w3-text-movepurple w3-col s1">Contact</a>
+            <a href="index.html" class="w3-bar-item w3-button w3-block w3-text-pale-blue w3-col s1">Home</a>
+			<a href="research.html" class="w3-bar-item w3-button w3-block w3-text-pale-blue w3-col s1">Research</a>
+			<a href="cv.html" class="w3-bar-item w3-button w3-block w3-text-pale-blue w3-col s1">CV</a>
+			<a href="teaching.html" class="w3-bar-item w3-button w3-block w3-text-pale-blue w3-col s1">Teaching</a>
+			<a href="contact.html" class="w3-bar-item w3-button w3-block w3-text-pale-blue w3-col s1">Contact</a>
 		</div>
     </div>
     
@@ -177,12 +205,6 @@
     
 	<!-- Header with image -->
 	<header class="bgimg w3-display-container">
-	  <div class="w3-display-bottomleft w3-left-align w3-margin-left">
-		<span class="w3-text-white w3-text-shadow" style="font-size:70px">Contact</span>
-	  </div>
-	  <div class="w3-display-bottomright w3-center w3-padding-small">
-		<span class="w3-text-white w3-text-shadow w3-small"><i>Photo by Joanna Kosinska on Unsplash</i></span>
-	  </div>
 	</header>
 
 	<!-- Add a background color and large text to the whole page -->
@@ -190,30 +212,42 @@
 
 		<!-- About Container -->
 		<div class="w3-container">
-			<div class="w3-content w3-text-dark-grey w3-padding-64" style="max-width:900px">
+			<div class="w3-content w3-text-dark-grey" style="max-width:900px">
+				<h5 class="w3-left-align w3-margin-top">
+					<span class="w3-wide w3-xxxlarge w3-text-hard-blue">
+						Christian Daniel Alem&aacute;n Peric&oacute;n
+					</span><br>
+				</h5>
+				<hr>
+				<p><img src="Images/photo_chris2.jpg" style="width:45%; margin-right: 20px; margin-top: 10px" align="right"></p>
+				<p>				
+				Welcome to my website.	I am a Ph.D. candidate in Economics at the <a href="http://idea.uab.es/" target="_blank">
+  International Doctorate of Economic Analysis (IDEA)</a> program from
+  Universitat Aut&ograve;noma de Barcelona (UAB) and
+  <a href="https://www.barcelonagse.eu/" target="_blank">Barcelona Graduate School of Economics</a>,
+  Spain. I work under the supervision of <a href="http://r-santaeulalia.net/" target="_blank">Prof. Raül Santaeulàlia-Llopis.</a> </p>
+<!-- <p align="justify">My research interests: Development Economics, Economic Geography and Applied Econometrics. </p> -->
+<p align="justify">My research interests are Macroeconomics, Family Economics, Marriage/Divorce, and HIV/AIDS epidemics and the Macroeconomy. </p>
+				</p>
 				
-				<p>
-					<u>Email</u>: joan.llull [at] movebarcelona.eu
-				</p>
+			<br>
 
-				<p>
-					<u>Phone</u>: &#43;34 93 581 1365
-				</p>
-
-				<p>
-					<u>Address</u>: <br>
-					Fundaci&oacute; MOVE                                          <br>
-					Facultat d&#39;Economia i Empresa                             <br>
-                    Universitat Aut&ograve;noma de Barcelona                      <br>
-					Edifici B &mdash; Campus de Bellaterra                        <br>
+<h5 class="title toc-ignore" align="left">Contact Information:</h5>
+<p align="justify">Facultat d&#39;Economia i Empresa                             <br>
+	Universitat Aut&ograve de Barcelona (UAB)<br>
+Edifici B &mdash; Campus de Bellaterra                        <br>
 					08193 Bellaterra                                              <br>
 					Cerdanyola del Vall&egrave;s                                  <br>
 					Barcelona (Spain)
-				</p>         
+</p>
+
+<h6 class="title toc-ignore" align="left">email: <a href="mailto:christian.c.aleman@gmail.com">christian.c.aleman[at]gmail.com</a></h6>
 				
-			</div>
-		</div>
-	</div>
+	
+				
+            </div>
+	   </div>
+    </div>
 
 </body>
 
@@ -252,3 +286,18 @@
 
 </html>
 
+    © 2021 GitHub, Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Docs
+
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
+Loading complete
