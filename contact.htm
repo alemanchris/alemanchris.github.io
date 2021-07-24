@@ -5,7 +5,7 @@
 
 <head>
     <!-- WEB TITLE -->
-    <title>Joan Llull - Contact</title>
+    <title>Christian Aleman</title>
     
     <!-- BASE URL -->
     <!--base href="http://pareto.uab.cat/jllull/" /-->
@@ -20,18 +20,12 @@
     <meta http-equiv="Content-Language" content="en-us">
         
     <!-- KEYWORDS (TO RANGE HIGH IN SEARCHES) -->
-    <meta name="Keywords" content="Joan,Llull,Cabrer,UAB,move,barcelona gse,immigration,labor,wages,structural,microeconometrics,research,econ,
-	economics,autonoma,barcelona" >
+    <meta name="Keywords" content="Christian,Daniel,Aleman,Pericon,UAB,move,barcelona gse,family,divorce,marriage,labor,wages,quantitative,macroeconomics,research,econ,
+	economics,autonoma,barcelona,Raul,Santaeulalia,Llopis" >
     
     <!-- PAGE DESCRIPTION (FOR SEARCH ENGINES) -->
-    <meta name="Description" content="Joan Llull is Researcher at MOVE, Associate Professor of Economics (with tenure) at Universitat Aut&ograve;noma de Barcelona, 
-                                      Affiliated Professor at Barcelona GSE, and External Fellow at CReAM (UCL). He has recently been awarded a European Research Council (ERC) 
-                                      Starting Grant for his project &quot;Dynamic Modeling of Labor Market Mobility and Human Capital Accumulation (DYMOLAMO)&quot;. His research focuses
-                                      on labor economics, and more specifically on immigration, internal migration, occupational mobility, inequality, human capital, family economics, 
-                                      and health. His main research typically estimates dynamic discrete choice models of equilibrium, but several of his papers also use more reduced 
-                                      form approaches. His work has been published in the Review of Economic Studies, Journal of Human Resources, and the European Economic Review, 
-                                      among others. Professor Llull teaches several microeconometrics courses at UAB, at the different master programs of the Barcelona GSE, and 
-                                      at the Barcelona GSE Summer School." >
+    <meta name="Description" content="Christian Aleman is a PhD student at Universitat Aut&ograve;noma de Barcelona, IDEA 
+                                      Barcelona GSE, he works under the supervision of Prof. Raül Santaeulàlia-Llopis" >
 
     <!-- GOOGLE ANALYTICS SCRIPT -->
     <script type="text/javascript">
@@ -71,7 +65,49 @@
 			overflow: hidden;
 			transition: max-height 0.2s ease-out;
 		}
-	</style>
+		iframe {
+			border: none;
+			min-width: 100%;
+            overflow:hidden;
+		}
+    </style>
+	
+	<!-- RESPONSIVE IFRAME -->
+	
+    <style>
+		 #Iframe-Liason-Sheet {
+		   overflow: hidden;
+		   border: none;
+		 }
+		  /* inner wrapper: make responsive */
+		 .responsive-wrapper {
+		   position: relative;
+		   height: 0;  /* gets height from padding-bottom setting */
+		   -webkit-overflow-scrolling: touch;
+           overflow:hidden;
+		 }
+		 .responsive-wrapper iframe {
+		   position: absolute;
+		   top: 0;
+		   left: 0;
+		   width: 100%;
+		   height: 100%;
+		   margin: 0;
+		   padding: 0;
+		   border: none;
+		 }
+		 /* padding-bottom = h/w as a % */
+		 .responsive-wrapper-wxh-550x2000 {
+		   padding-bottom: 56.4%;
+		 }
+		 .iframe-border {
+		   border: 1px solid #000;
+		 }
+		 .center-block-horiz {
+		   margin-left: auto !important;
+		   margin-right: auto !important;
+		 }  		
+    </style>
 
     <!-- ICON IMAGE IN TABS -->
     <link href="Images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -91,20 +127,19 @@
 			height: 100%;
 		}
 		.bgimg {
-			background-position: center;
+			background-position: 20% 20%;
 			background-size: cover;
-			background-image: url("Images/Contact.jpg");
-			min-height: 75%;
+			background-image: url("Images/photo_chris_zoom.jpg");
+			min-height: 50%;
 		}
-		@media only screen and (min-width: 400px) {
+		@media only screen and (min-width: 300px) {
 			.bgimg {
-				background-position: center;
+				background-position: 20% 10%;
 				background-size: cover;
-				background-image: url("Images/Contact_high_res.jpg");
-				min-height: 60%;
+				background-image: url("Images/condor2.jpg");
+                min-height: 45%;
 			}
-		}
-		.menu {
+		}		.menu {
 			display: none;
 		}
     </style>
@@ -117,13 +152,12 @@
 <body>
 
     <!-- Links (sit on top and menu on small screens) -->
-    <div class="w3-bar w3-top">
+    <div class="w3-bar-item">
 		<div class="w3-row w3-padding w3-white">
             <a href="index.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">Home</a>
 			<a href="research.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">Research</a>
 			<a href="cv.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">CV</a>
 			<a href="teaching.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">Teaching</a>
-			<a href="media.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">Media</a>
 			<a href="contact.htm" class="w3-bar-item w3-button w3-hide-small w3-block w3-text-movepurple w3-col s1">Contact</a>
 			<a href="javascript:void(0)" class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large"
 			   onclick="navibar()" title="Toggle Navigation Menu">&#9776;</a>
@@ -135,7 +169,6 @@
 			<a href="research.htm" class="w3-bar-item w3-button w3-block w3-text-movepurple w3-col s1">Research</a>
 			<a href="cv.htm" class="w3-bar-item w3-button w3-block w3-text-movepurple w3-col s1">CV</a>
 			<a href="teaching.htm" class="w3-bar-item w3-button w3-block w3-text-movepurple w3-col s1">Teaching</a>
-			<a href="media.htm" class="w3-bar-item w3-button w3-block w3-text-movepurple w3-col s1">Media</a>
 			<a href="contact.htm" class="w3-bar-item w3-button w3-block w3-text-movepurple w3-col s1">Contact</a>
 		</div>
     </div>
