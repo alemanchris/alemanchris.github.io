@@ -1,2 +1,2 @@
 # alemanchris.github.io
-Website of Christian Daniel Aleman Pericon
+Academic website of Christian Daniel Aleman Pericon
