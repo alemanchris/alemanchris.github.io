@@ -97,7 +97,7 @@ opt.sel_norm  = 2;                  <span class="comment">% 1: count 2: pdf</spa
 
     <span class="keyword">end</span>
 <span class="keyword">end</span>
-</pre><img vspace="5" hspace="5" src="s1_01.png" alt=""> <img vspace="5" hspace="5" src="s1_02.png" alt=""> <img vspace="5" hspace="5" src="s1_03.png" alt=""> <p><b>Activity 2: Kernel Density (Estimation)</b></p><p>Histogram:</p><p><img src="s1_eq09990872769297376882.png" alt="$f^{hist}(x)= \frac{1}{N}\sum^{N}_{i=1}\frac{1}{b} \textbf{1}_{x_{i}\in[x-0.5b,x+0.5b]}$"></p><p>Where <img src="s1_eq02044268985122151499.png" alt="$b$"> is the bin width</p><p>Kernel:</p><p><img src="s1_eq12313481586823551591.png" alt="$f^{Kernel}(x)= \frac{1}{N\hat{b}}\sum^{N}_{i=1}K(\frac{x_{i}-x}{b})$"></p><p>Where <img src="s1_eq04683343664734912066.png" alt="$\hat{b}$"> is the bin width</p><p>And <img src="s1_eq08930609791853178425.png" alt="$K(\cdot)$"> is the Kernel function. The most common types are:</p><div><ol><li>Normal</li><li>Box</li><li>Triangle</li><li>Epanechnikov</li></ol></div><p>Figure: Kernel Types</p><p><img vspace="5" hspace="5" src="ks.JPG" alt=""> </p><p>Figure: Kernel Illustration</p><p><img vspace="5" hspace="5" src="ki.png" alt=""> </p><p><b>Practical Example</b></p><pre class="codeinput"><span class="comment">% Pick one simulation:</span>
+</pre><img vspace="5" hspace="5" src="s1_01.png" alt=""> <img vspace="5" hspace="5" src="s1_02.png" alt=""> <img vspace="5" hspace="5" src="s1_03.png" alt=""> <p><b>Activity 2: Kernel Density (Estimation)</b></p><p>Histogram:</p><p><img src="s1_eq09990872769297376882.png" alt="$f^{hist}(x)= \frac{1}{N}\sum^{N}_{i=1}\frac{1}{b} \textbf{1}_{x_{i}\in[x-0.5b,x+0.5b]}$"></p><p>Where <img src="s1_eq02044268985122151499.png" alt="$b$"> is the bin width</p><p>Kernel:</p><p><img src="s1_eq12313481586823551591.png" alt="$f^{Kernel}(x)= \frac{1}{N\hat{b}}\sum^{N}_{i=1}K(\frac{x_{i}-x}{b})$"></p><p>Where <img src="s1_eq04683343664734912066.png" alt="$\hat{b}$"> is the bin width</p><p>And <img src="s1_eq08930609791853178425.png" alt="$K(\cdot)$"> is the Kernel function. The most common types are:</p><div><ol><li>Normal</li><li>Box</li><li>Triangle</li><li>Epanechnikov</li></ol></div><p>Figure: Kernel Types</p><p><img vspace="5" hspace="5" src="ks.png" alt=""> </p><p>Figure: Kernel Illustration</p><p><img vspace="5" hspace="5" src="ki.png" alt=""> </p><p><b>Practical Example</b></p><pre class="codeinput"><span class="comment">% Pick one simulation:</span>
 par.N = 300; <span class="comment">%5000;                                           % Number of observations</span>
 var.x_vec = par.mu(2) + par.sigma(2).*randn(par.N,1);         <span class="comment">% Simulate again</span>
 
@@ -330,7 +330,7 @@ end
 %%
 % Figure: Kernel Types 
 %
-% <<ks.JPG>>
+% <<ks.png>>
 % 
 % Figure: Kernel Illustration
 %
