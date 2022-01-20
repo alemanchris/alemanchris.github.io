@@ -139,7 +139,63 @@ p3 = plot(par.support(:,2),var.kdensity(:,2),<span class="string">'r--'</span>,<
 p4 = plot(par.support(:,3),var.kdensity(:,3),<span class="string">'r-.'</span>,<span class="string">'linewidth'</span>,1.2);
 ylabel(opt.norm_type{opt.sel_norm})
 legend([p2,p3,p4],{[<span class="string">'Kernel BW = '</span>,num2str(par.bw(1))],[<span class="string">'Kernel BW = '</span>,num2str(par.bw(2))],[<span class="string">'Kernel BW = '</span>,num2str(par.bw(3))]})
-</pre><img vspace="5" hspace="5" src="s1_04.png" alt=""> <img vspace="5" hspace="5" src="s1_05.png" alt=""> <p><b>Activity 3: Spourious relations</b></p><p><img src="s1_eq14579006254201784225.png" alt="$x_{1} = \beta_{0}+\beta_{1}x_{2}+\epsilon_{1} $ $x_{3} = \alpha_{0}+\alpha_{1}x_{2}+\epsilon_{3}$"></p><pre class="codeinput">rng(4567)                 <span class="comment">% Set seed for reproductivity</span>
+</pre><img vspace="5" hspace="5" src="s1_04.png" alt=""> <img vspace="5" hspace="5" src="s1_05.png" alt=""> <p><b>Simulate Data form any distribution</b></p><p><b>The inverse CDF method</b></p><p><img src="s1_eq08211831063866031173.png" alt="$x = F^{-1}(u)$"></p><p>Where F is the CDF of the desired distribution and u are draws from <img src="s1_eq02923773732408070589.png" alt="$U(0,1)$"></p><p>Repeat the above example for the Generalized Pareto distribution</p><pre class="codeinput">par.N = 5000; <span class="comment">%5000;                                           % Number of observations</span>
+opt.correction = 0;                                            <span class="comment">% Reflection correction</span>
+par.sigma = 1;
+par.k = 5;
+par.theta = 0;
+<span class="comment">%var.x_vec = gprnd(par.k,par.sigma,par.theta,par.N,1);        % Simulate Using Matlab Inbuilt</span>
+var.x_vec = sim_gp(par.N,par.k,par.sigma,par.theta);          <span class="comment">% Simulate using own function</span>
+I = var.x_vec&gt;10;
+var.x_vec = var.x_vec(not(I));
+par.N = size(var.x_vec,1);
+
+
+<span class="comment">% Kernel Parameters</span>
+par.bw = [NaN,1.8,3];                                           <span class="comment">% BandWidth</span>
+opt.kfunc = {<span class="string">'normal'</span>, <span class="string">'box'</span>,<span class="string">'triangle'</span>,<span class="string">'epanechnikov'</span>};        <span class="comment">% Kernel Functions</span>
+var.kdensity = NaN(100,3);                                      <span class="comment">% Initialize Kernel Density</span>
+par.support  = NaN(100,3);                                      <span class="comment">% Initialize Kernel Support</span>
+par.ahk_support = linspace(0,10,100)';                          <span class="comment">% Ad Hock Support</span>
+
+<span class="comment">% Construct Kernel Density</span>
+<span class="keyword">for</span> i = 1:3
+    <span class="keyword">if</span> i==1
+        <span class="keyword">if</span> opt.correction ==0
+            [var.kdensity(:,i),par.support(:,i),dbw] = ksdensity(var.x_vec,<span class="string">'Kernel'</span>,opt.kfunc{1});
+        <span class="keyword">else</span>
+            [var.kdensity(:,i),par.support(:,i),dbw] = ksdensity(var.x_vec,<span class="string">'Kernel'</span>,opt.kfunc{1},<span class="string">'Support'</span>,[0,Inf],<span class="string">'BoundaryCorrection'</span>,<span class="string">'reflection'</span>);
+        <span class="keyword">end</span>
+        par.bw(i) = dbw; <span class="comment">% Save default Bandwith</span>
+    <span class="keyword">else</span>
+        <span class="keyword">if</span> opt.correction ==0
+            [var.kdensity(:,i),par.support(:,i),dbw] = ksdensity(var.x_vec,<span class="string">'Kernel'</span>,opt.kfunc{1},<span class="string">'Bandwidth'</span>,par.bw(i));
+        <span class="keyword">else</span>
+            [var.kdensity(:,i),par.support(:,i),dbw] = ksdensity(var.x_vec,<span class="string">'Kernel'</span>,opt.kfunc{1},<span class="string">'Bandwidth'</span>,par.bw(i),<span class="string">'Support'</span>,[0,Inf],<span class="string">'BoundaryCorrection'</span>,<span class="string">'reflection'</span>);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Obtain theoretical PDF of the normal</span>
+var.true_density = gppdf(par.ahk_support,par.k,par.sigma,par.theta);
+
+figure(6)
+hold <span class="string">on</span>
+histogram(var.x_vec,par.num_bins(2),<span class="string">'Normalization'</span>,opt.norm_type{opt.sel_norm});
+p2 = plot(par.support(:,1),var.kdensity(:,1),<span class="string">'r-o'</span>,<span class="string">'linewidth'</span>,1.2);
+p3 = plot(par.ahk_support,var.true_density,<span class="string">'b-x'</span>,<span class="string">'linewidth'</span>,1.2);
+legend([p2 p3],{<span class="string">'Kernel Density'</span>,<span class="string">'Underlying Density'</span>})
+ylabel(opt.norm_type{opt.sel_norm})
+
+figure(7)
+hold <span class="string">on</span>
+histogram(var.x_vec,par.num_bins(2),<span class="string">'Normalization'</span>,opt.norm_type{opt.sel_norm});
+p2 = plot(par.support(:,1),var.kdensity(:,1),<span class="string">'r-'</span>,<span class="string">'linewidth'</span>,1.2);
+p3 = plot(par.support(:,2),var.kdensity(:,2),<span class="string">'r--'</span>,<span class="string">'linewidth'</span>,1.2);
+p4 = plot(par.support(:,3),var.kdensity(:,3),<span class="string">'r-.'</span>,<span class="string">'linewidth'</span>,1.2);
+ylabel(opt.norm_type{opt.sel_norm})
+legend([p2,p3,p4],{[<span class="string">'Kernel BW = '</span>,num2str(par.bw(1))],[<span class="string">'Kernel BW = '</span>,num2str(par.bw(2))],[<span class="string">'Kernel BW = '</span>,num2str(par.bw(3))]})
+</pre><img vspace="5" hspace="5" src="s1_06.png" alt=""> <img vspace="5" hspace="5" src="s1_07.png" alt=""> <p><b>Activity 3: Spourious relations</b></p><p><img src="s1_eq14579006254201784225.png" alt="$x_{1} = \beta_{0}+\beta_{1}x_{2}+\epsilon_{1} $ $x_{3} = \alpha_{0}+\alpha_{1}x_{2}+\epsilon_{3}$"></p><pre class="codeinput">rng(4567)                 <span class="comment">% Set seed for reproductivity</span>
 
 <span class="comment">% Generate x_{1},x_{2},x_{3}</span>
 par.N        = 100;
@@ -163,17 +219,17 @@ opt.v_names = {<span class="string">'rho(x_{1},x_{2})'</span>,<span class="strin
 c_table = array2table([corr(var.x1_vec,var.x2_vec),corr(var.x3_vec,var.x2_vec),corr(var.x1_vec,var.x3_vec)],<span class="string">'VariableNames'</span>,opt.v_names)
 
 
-figure(6)
+figure(8)
 plot(var.x1_vec,var.x2_vec,<span class="string">'ko'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'k'</span>)
 xlabel(<span class="string">'$x_{1}$'</span>,<span class="string">'fontsize'</span>,17,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>)
 ylabel(<span class="string">'$x_{2}$'</span>,<span class="string">'fontsize'</span>,17,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>)
 
-figure(7)
+figure(9)
 plot(var.x3_vec,var.x2_vec,<span class="string">'ko'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'k'</span>)
 xlabel(<span class="string">'$x_{3}$'</span>,<span class="string">'fontsize'</span>,17,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>)
 ylabel(<span class="string">'$x_{2}$'</span>,<span class="string">'fontsize'</span>,17,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>)
 
-figure(8)
+figure(10)
 plot(var.x1_vec,var.x3_vec,<span class="string">'ko'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'k'</span>)
 xlabel(<span class="string">'$x_{1}$'</span>,<span class="string">'fontsize'</span>,17,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>)
 ylabel(<span class="string">'$x_{3}$'</span>,<span class="string">'fontsize'</span>,17,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>)
@@ -187,7 +243,25 @@ c_table =
 
         0.95992             0.99146             0.94858     
 
-</pre><img vspace="5" hspace="5" src="s1_06.png" alt=""> <img vspace="5" hspace="5" src="s1_07.png" alt=""> <img vspace="5" hspace="5" src="s1_08.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="s1_08.png" alt=""> <img vspace="5" hspace="5" src="s1_09.png" alt=""> <img vspace="5" hspace="5" src="s1_10.png" alt=""> <pre class="codeinput"><span class="comment">% Create the simulator function:</span>
+<span class="keyword">function</span> data = sim_gp(N,k,sigma,theta)
+<span class="comment">% This function simulates a vector data for the generalized Pareto using the inverse</span>
+<span class="comment">% CDF method:</span>
+<span class="comment">%{
+</span><span class="comment">
+</span><span class="comment">Inputs:
+</span><span class="comment">    N     : Number of observations to be simulated
+</span><span class="comment">    k     : Index Shape
+</span><span class="comment">    sigma : Scale
+</span><span class="comment">    theta : Threshold location
+</span><span class="comment">
+</span><span class="comment">Output:
+</span><span class="comment">    data  : NX1 vector of data
+</span><span class="comment">%}
+</span>var_x = rand(N,1);
+data = sigma./k.*((1-var_x).^(-k)-1)+theta;
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Econometrics I 
 %  TA Christian Alemán
@@ -307,8 +381,73 @@ p4 = plot(par.support(:,3),var.kdensity(:,3),'r-.','linewidth',1.2);
 ylabel(opt.norm_type{opt.sel_norm})
 legend([p2,p3,p4],{['Kernel BW = ',num2str(par.bw(1))],['Kernel BW = ',num2str(par.bw(2))],['Kernel BW = ',num2str(par.bw(3))]})
 
+%% 
+% *Simulate Data form any distribution*
+% 
+% *The inverse CDF method* 
+% 
+% $x = F^{-1}(u)$
+%
+% Where F is the CDF of the desired distribution and u are draws from $U(0,1)$
+%
+% Repeat the above example for the Generalized Pareto distribution
+%
+par.N = 5000; %5000;                                           % Number of observations 
+opt.correction = 0;                                            % Reflection correction
+par.sigma = 1;
+par.k = 5;
+par.theta = 0;
+%var.x_vec = gprnd(par.k,par.sigma,par.theta,par.N,1);        % Simulate Using Matlab Inbuilt
+var.x_vec = sim_gp(par.N,par.k,par.sigma,par.theta);          % Simulate using own function
+I = var.x_vec>10;
+var.x_vec = var.x_vec(not(I));
+par.N = size(var.x_vec,1);
 
 
+% Kernel Parameters
+par.bw = [NaN,1.8,3];                                           % BandWidth
+opt.kfunc = {'normal', 'box','triangle','epanechnikov'};        % Kernel Functions
+var.kdensity = NaN(100,3);                                      % Initialize Kernel Density
+par.support  = NaN(100,3);                                      % Initialize Kernel Support
+par.ahk_support = linspace(0,10,100)';                          % Ad Hock Support
+
+% Construct Kernel Density
+for i = 1:3
+    if i==1
+        if opt.correction ==0
+            [var.kdensity(:,i),par.support(:,i),dbw] = ksdensity(var.x_vec,'Kernel',opt.kfunc{1});
+        else
+            [var.kdensity(:,i),par.support(:,i),dbw] = ksdensity(var.x_vec,'Kernel',opt.kfunc{1},'Support',[0,Inf],'BoundaryCorrection','reflection');
+        end
+        par.bw(i) = dbw; % Save default Bandwith
+    else
+        if opt.correction ==0
+            [var.kdensity(:,i),par.support(:,i),dbw] = ksdensity(var.x_vec,'Kernel',opt.kfunc{1},'Bandwidth',par.bw(i));
+        else
+            [var.kdensity(:,i),par.support(:,i),dbw] = ksdensity(var.x_vec,'Kernel',opt.kfunc{1},'Bandwidth',par.bw(i),'Support',[0,Inf],'BoundaryCorrection','reflection');
+        end
+    end
+end
+
+% Obtain theoretical PDF of the normal
+var.true_density = gppdf(par.ahk_support,par.k,par.sigma,par.theta);
+
+figure(6)
+hold on
+histogram(var.x_vec,par.num_bins(2),'Normalization',opt.norm_type{opt.sel_norm});  
+p2 = plot(par.support(:,1),var.kdensity(:,1),'r-o','linewidth',1.2);
+p3 = plot(par.ahk_support,var.true_density,'b-x','linewidth',1.2);
+legend([p2 p3],{'Kernel Density','Underlying Density'})
+ylabel(opt.norm_type{opt.sel_norm})
+
+figure(7)
+hold on
+histogram(var.x_vec,par.num_bins(2),'Normalization',opt.norm_type{opt.sel_norm});  
+p2 = plot(par.support(:,1),var.kdensity(:,1),'r-','linewidth',1.2);
+p3 = plot(par.support(:,2),var.kdensity(:,2),'rREPLACE_WITH_DASH_DASH','linewidth',1.2);
+p4 = plot(par.support(:,3),var.kdensity(:,3),'r-.','linewidth',1.2);
+ylabel(opt.norm_type{opt.sel_norm})
+legend([p2,p3,p4],{['Kernel BW = ',num2str(par.bw(1))],['Kernel BW = ',num2str(par.bw(2))],['Kernel BW = ',num2str(par.bw(3))]})
 %% 
 % *Activity 3: Spourious relations*
 %
@@ -339,23 +478,42 @@ opt.v_names = {'rho(x_{1},x_{2})','rho(x_{3},x_{2})','rho(x_{1},x_{3})'};
 c_table = array2table([corr(var.x1_vec,var.x2_vec),corr(var.x3_vec,var.x2_vec),corr(var.x1_vec,var.x3_vec)],'VariableNames',opt.v_names)
 
 
-figure(6)
+figure(8)
 plot(var.x1_vec,var.x2_vec,'ko','MarkerFaceColor','k')
 xlabel('$x_{1}$','fontsize',17,'interpreter','latex')
 ylabel('$x_{2}$','fontsize',17,'interpreter','latex')
 
-figure(7)
+figure(9)
 plot(var.x3_vec,var.x2_vec,'ko','MarkerFaceColor','k')
 xlabel('$x_{3}$','fontsize',17,'interpreter','latex')
 ylabel('$x_{2}$','fontsize',17,'interpreter','latex')
 
-figure(8)
+figure(10)
 plot(var.x1_vec,var.x3_vec,'ko','MarkerFaceColor','k')
 xlabel('$x_{1}$','fontsize',17,'interpreter','latex')
 ylabel('$x_{3}$','fontsize',17,'interpreter','latex')
 
 
+%%
 
+% Create the simulator function:
+function data = sim_gp(N,k,sigma,theta)
+% This function simulates a vector data for the generalized Pareto using the inverse
+% CDF method:
+%{
+
+Inputs:
+    N     : Number of observations to be simulated
+    k     : Index Shape
+    sigma : Scale
+    theta : Threshold location
+
+Output:
+    data  : NX1 vector of data
+%}
+var_x = rand(N,1);
+data = sigma./k.*((1-var_x).^(-k)-1)+theta;
+end
 
 
 ##### SOURCE END #####
