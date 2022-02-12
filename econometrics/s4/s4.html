@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Econometrics I</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-02-11"><meta name="DC.source" content="s4.m"><style type="text/css">
+      --><title>Econometrics I</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-02-12"><meta name="DC.source" content="s4.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -104,14 +104,13 @@ Results (Ordinary var-cov estimator)
 5      -0.220       0.339      -0.648       0.518
 
 *********************************************************
-</pre><p><b>Activity 2: Testing</b></p><p><b>Testing Homogeneity of Degree 1</b></p><p>Recall the linear restriction form:</p><p><img src="s4_eq11892840677337116798.png" alt="$R\beta = r$"></p><p>In our case for HOD1 we need <img src="s4_eq01405307729838294045.png" alt="$r=1$"> and <img src="s4_eq03205483746182586009.png" alt="$R=(0,0,1,1,1)$"></p><pre class="codeinput"><span class="comment">% First Homogeneity of Degree 1 (HOD1)</span>
+</pre><p><b>Activity 2: Testing</b></p><p><b>Testing Homogeneity of Degree 1</b></p><p>Recall the linear restriction form:</p><p><img src="s4_eq11892840677337116798.png" alt="$R\beta = r$"></p><p>In our case for HOD1 we need <img src="s4_eq01405307729838294045.png" alt="$r=1$"> and <img src="s4_eq03205483746182586009.png" alt="$R=(0,0,1,1,1)$"></p><p>The null hypothesis for qF,Wald,LR test below is:</p><p><img src="s4_eq05893401031259938237.png" alt="$H_{0}: R\beta = r$"></p><p><img src="s4_eq12334742550095667703.png" alt="$H_{1}: R\beta \neq r$"></p><p>We cannot reject the null (the p-value is above 0.05), meaning that we cannot reject Homogeneity</p><pre class="codeinput"><span class="comment">% First Homogeneity of Degree 1 (HOD1)</span>
 R = [0, 0, 1, 1, 1];
 r = 1;
-
 <span class="comment">% Imposing and testing HOD1</span>
 mc_olsr(y, x, R, r, names);
 TestStatistics(y, x, R, r);
-</pre><p><b>Testing Constant Returns to scale (CRS)</b></p><p><img src="s4_eq11892840677337116798.png" alt="$R\beta = r$"></p><p>In our case for CRS we need <img src="s4_eq01405307729838294045.png" alt="$r=1$"> and <img src="s4_eq03680876988335038849.png" alt="$R=(0,1,0,0,0)$"></p><pre class="codeinput"><span class="comment">% Now Constant Returs to Scale (CRTS)</span>
+</pre><p>For some reason the output of this example is comming at the end of the page.</p><p><b>Testing Constant Returns to scale (CRS)</b></p><p>In our case for CRS we need <img src="s4_eq01405307729838294045.png" alt="$r=1$"> and <img src="s4_eq03680876988335038849.png" alt="$R=(0,1,0,0,0)$"></p><p><img src="s4_eq05893401031259938237.png" alt="$H_{0}: R\beta = r$"></p><p><img src="s4_eq12334742550095667703.png" alt="$H_{1}: R\beta \neq r$"></p><p>We reject the null (the p-value is below 0.05), meaning that we reject the assumption of constant returns to scale.</p><pre class="codeinput"><span class="comment">% Now Constant Returs to Scale (CRTS)</span>
 R = [0, 1, 0, 0, 0];
 r = 1;
  <span class="comment">% Imposing and testing CRTS</span>
@@ -137,10 +136,10 @@ F         256.262       0.000
 Wald      265.414       0.000
 LR        150.863       0.000
 Score      93.771       0.000
-</pre><p><b>Activity 3: The chow test</b></p><p>We want to understant whether CRS changes with size of the company</p><p>Define 5 subsamples of firms, with thefirst group being the 29 firms with the lowest output levels, then the next 29 firms, etc.</p><p>To do this define dummy variables:</p><p><img src="s4_eq14897577261727515562.png" alt="$D_{1}=\begin{cases}1\, t\in\{1,2,...,29\}\end{cases}$"> <img src="s4_eq00202142981986870057.png" alt="$0$"> Otherwise</p><p><img src="s4_eq07440850197482293474.png" alt="$D_{2}=\begin{cases}1\, t\in\{30,31,...,58\}\end{cases}$"> <img src="s4_eq00202142981986870057.png" alt="$0$"> Otherwise</p><p>And so forth fro <img src="s4_eq00279832690846253230.png" alt="$D_{3},...,D_{5}$"></p><p>Then the model can be rewritten as:</p><p><img src="s4_eq07846838773556815697.png" alt="$ln(C) = \sum_{j}^{5}D_{j}\beta_{1} +\sum_{j}^{5}D_{j}\beta_{2,j}ln(Q)+\sum_{j}^{5}D_{j}\beta_{3,j}ln(Pl)+\sum_{j}^{5}D_{j}\beta_{4,j}ln(Pf)+\sum_{j}^{5}D_{j}\beta_{5,j}ln(Pl)+ \epsilon$"></p><p>In Matrix form</p><pre>$\left[\begin{array}{c}y_{1} \\y_{2} \\y_{3} \\y_{4} \\y_{5}  \end{array}\right] \left[\begin{array}{ccccc} X&amp;0&amp;0&amp;0&amp;0 \\ 0&amp;X&amp;0&amp;0&amp;0 \\ 0&amp;0&amp;X&amp;0&amp;0 \\ 0&amp;0&amp;0&amp;X&amp;0 \\ 0&amp;0&amp;0&amp;0&amp;X \end{array}\right] \left[\begin{array}{c}\beta_{1} \\ \beta_{2} \\ \beta_{3} \\ \beta_{4} \\ \beta_{5}  \end{array}\right] \left[\begin{array}{c} \epsilon_{1} \\ \epsilon_{2} \\ \epsilon_{3} \\ \epsilon_{4} \\ \epsilon_{5}  \end{array}\right]$</pre><pre>The null to test is that the parameter vectors for the separate groups
-are all the same, that is:</pre><p><img src="s4_eq08473886040308391927.png" alt="$\beta_{1}=\beta_{2}=...=\beta_{5}$"></p><pre class="codeinput"><span class="comment">% Create the block diagonal X matrix corresponding to separate coefficients</span>
+</pre><p><b>Activity 3: The chow test</b></p><p>We want to understant whether CRS changes with size of the company</p><p>Define 5 subsamples of firms, with thefirst group being the 29 firms with the lowest output levels, then the next 29 firms, etc.</p><p>To do this define dummy variables:</p><p><img src="s4_eq14897577261727515562.png" alt="$D_{1}=\begin{cases}1\, t\in\{1,2,...,29\}\end{cases}$"> <img src="s4_eq00202142981986870057.png" alt="$0$"> Otherwise</p><p><img src="s4_eq07440850197482293474.png" alt="$D_{2}=\begin{cases}1\, t\in\{30,31,...,58\}\end{cases}$"> <img src="s4_eq00202142981986870057.png" alt="$0$"> Otherwise</p><p>And so forth fro <img src="s4_eq00279832690846253230.png" alt="$D_{3},...,D_{5}$"></p><p>Then the model can be rewritten as:</p><p><img src="s4_eq07846838773556815697.png" alt="$ln(C) = \sum_{j}^{5}D_{j}\beta_{1} +\sum_{j}^{5}D_{j}\beta_{2,j}ln(Q)+\sum_{j}^{5}D_{j}\beta_{3,j}ln(Pl)+\sum_{j}^{5}D_{j}\beta_{4,j}ln(Pf)+\sum_{j}^{5}D_{j}\beta_{5,j}ln(Pl)+ \epsilon$"></p><p>In Matrix form</p><p><img src="s4_eq03914849164482470231.png" alt="$\left[\begin{array}{c}y_{1} \\ y_{2} \\ y_{3} \\ y_{4} \\ y_{5}  \end{array}\right]=\left[\begin{array}{ccccc}X_{1}&amp;0&amp;0&amp;0&amp;0 \\ 0&amp;X_{2}&amp;0&amp;0&amp;0 \\ 0&amp;0&amp;X_{3}&amp;0&amp;0 \\ 0&amp;0&amp;0&amp;X_{4}&amp;0 \\ 0&amp;0&amp;0&amp;0&amp;X_{5}  \end{array}\right]\left[\begin{array}{c}\beta^{1} \\ \beta^{2} \\ \beta^{3} \\ \beta^{4} \\ \beta^{5}  \end{array}\right]\left[\begin{array}{c}\epsilon_{1} \\ \epsilon_{2} \\ \epsilon_{3} \\ \epsilon_{4} \\ \epsilon_{5}  \end{array}\right]$"></p><p>We define <img src="s4_eq15706357982168418211.png" alt="$\beta^{j} = (\beta_{1},\beta_{2,j},\beta_{3,j},\beta_{4,j},\beta_{5,j})$"></p><pre class="codeinput"><span class="comment">% Create the block diagonal X matrix corresponding to separate coefficients</span>
 big_x = zeros(n,5*k);
 <span class="comment">%x_A = NaN()</span>
+x_old = x;
 <span class="keyword">for</span> i=1:k
 	startrow = (i-1)*29+1;
 	endrow = i*29;
@@ -153,7 +152,7 @@ big_x = zeros(n,5*k);
 <span class="comment">%    x_A(:,:,i) = x(startrow:endrow,:);</span>
 <span class="keyword">end</span>
 x = big_x;
-</pre><p><b>Visual Inspection</b> Nerlove model: 5 separate regressions for different output levels</p><pre class="codeinput">b = mc_ols(y, x, names);
+</pre><p><b>Visual Inspection</b></p><p>Nerlove model: 5 separate regressions, one per each group of firms</p><pre class="codeinput">b = mc_ols(y, x, names);
 output = 1:5;
 output = output*5+2-5; <span class="comment">% Just extract the relevant parameter</span>
 output = b(output,:);
@@ -204,7 +203,7 @@ fuel           0.679       0.097       7.039       0.000
 capital       -0.239       0.288      -0.830       0.408
 
 *********************************************************
-</pre><img vspace="5" hspace="5" src="s4_01.png" alt=""> <p><b>Chow test</b></p><pre class="codeinput">R = eye(5);
+</pre><img vspace="5" hspace="5" src="s4_01.png" alt=""> <p><b>Chow test</b></p><p>When performing the Chow Tets the null to test is that the parameter vectors for the separate groups are all the same, that is:</p><p><img src="s4_eq03016428207243083478.png" alt="$H_{0}: \beta^{1}=\beta^{2}=...=\beta^{5}$"></p><p>We reject the null, then the estimated coefficients are different for the 5 groups.</p><pre class="codeinput">R = eye(5);
 Z = zeros(5,5);
 R = [
 	R -R Z Z Z;
@@ -214,7 +213,7 @@ R = [
 	];
 r = zeros(20,1);
 
-<span class="comment">% Chow test: note that the restricted model gives the same results as the original model</span>
+<span class="comment">% Chow test:</span>
 mc_olsr(y, x, R, r, names);
 TestStatistics(y, x, R, r);
 </pre><pre class="codeoutput">Restricted LS estimation results
@@ -257,7 +256,7 @@ F           5.363       0.000
 Wald      129.601       0.000
 LR         92.595       0.000
 Score      68.434       0.000
-</pre><p>Pick another reference:</p><pre class="codeinput">R = eye(5);
+</pre><p>Pick another reference, results should be the same</p><p>Chow test: note that the restricted model gives the same results as the original model</p><pre class="codeinput">R = eye(5);
 Z = zeros(5,5);
 R = [
 	-R Z Z Z R;
@@ -267,13 +266,92 @@ R = [
 	];
 r = zeros(20,1);
 
-<span class="comment">% Chow test: note that the restricted model gives the same results as the original model</span>
 mc_olsr(y, x, R, r, names);
 TestStatistics(y, x, R, r);
+</pre><pre class="codeoutput">Restricted LS estimation results
+Observations 145
+R-squared 0.925955
+Sigma-squared 0.215520
+
+Results (Het. consistent var-cov estimator)
+
+          estimate   st.err.   t-stat.   p-value  
+constant      -3.527       1.689      -2.088       0.039
+output         0.720       0.032      22.491       0.000
+labor          0.436       0.241       1.808       0.074
+fuel           0.427       0.074       5.751       0.000
+capital       -0.220       0.318      -0.691       0.491
+constant      -3.527       1.689      -2.088       0.039
+output         0.720       0.032      22.491       0.000
+labor          0.436       0.241       1.808       0.074
+fuel           0.427       0.074       5.751       0.000
+capital       -0.220       0.318      -0.691       0.491
+constant      -3.527       1.689      -2.088       0.039
+output         0.720       0.032      22.491       0.000
+labor          0.436       0.241       1.808       0.074
+fuel           0.427       0.074       5.751       0.000
+capital       -0.220       0.318      -0.691       0.491
+constant      -3.527       1.689      -2.088       0.039
+output         0.720       0.032      22.491       0.000
+labor          0.436       0.241       1.808       0.074
+fuel           0.427       0.074       5.751       0.000
+capital       -0.220       0.318      -0.691       0.491
+constant      -3.527       1.689      -2.088       0.039
+output         0.720       0.032      22.491       0.000
+labor          0.436       0.241       1.808       0.074
+fuel           0.427       0.074       5.751       0.000
+capital       -0.220       0.318      -0.691       0.491
+
+*********************************************************
+          Value   p-value  
+F           5.363       0.000
+Wald      129.601       0.000
+LR         92.595       0.000
+Score      68.434       0.000
+</pre><p><b>Run the Chow test only the last two groups:</b></p><pre class="codeinput"><span class="comment">% Trim the data</span>
+<span class="comment">% ng: Choose number of groups :</span>
+<span class="comment">%</span>
+
+ng = 2;
+ni = 5-ng;
+y = y(29*ni+1:end,1);
+x = x(29*ni+1:end,5*ni+1:end);
 
 
+R = eye(5);
+Z = zeros(5,5);
 
-stop_code = 1;
+R = [R -R];
+r = zeros(5*(ng-1),1);
+</pre><p>Chow test: note that we still reject the null, but only at the 95% level, not at 90% anymore</p><pre class="codeinput">mc_olsr(y, x, R, r, names);
+TestStatistics(y, x, R, r);
+</pre><pre class="codeoutput">Restricted LS estimation results
+Observations 58
+R-squared 0.961866
+Sigma-squared 0.026330
+
+Results (Het. consistent var-cov estimator)
+
+   estimate   st.err.   t-stat.   p-value  
+1      -5.526       1.437      -3.844       0.000
+2       0.944       0.037      25.746       0.000
+3       0.616       0.180       3.430       0.001
+4       0.434       0.056       7.694       0.000
+5      -0.190       0.257      -0.740       0.463
+6      -5.526       1.437      -3.844       0.000
+7       0.944       0.037      25.746       0.000
+8       0.616       0.180       3.430       0.001
+9       0.434       0.056       7.694       0.000
+10      -0.190       0.257      -0.740       0.463
+
+*********************************************************
+          Value   p-value  
+F           2.487       0.044
+Wald       15.028       0.010
+LR         13.363       0.020
+Score      11.936       0.036
+</pre><p>Display Code ends for publication</p><pre class="codeinput">disp(<span class="string">'code ends'</span>)
+</pre><pre class="codeoutput">code ends
 </pre><p>Functions</p><pre class="codeinput"><span class="keyword">function</span> [b, varb, e] = mc_olsr(y, x, R, r, names, silent, regularvc)
 <span class="comment">%{
 </span><span class="comment">Copyright (C) 2010 Michael Creel &lt;michael.creel@uab.es&gt;
@@ -320,7 +398,11 @@ stop_code = 1;
 	k = size(x,2);
 	q = size(R,1);
 
+    <span class="keyword">try</span>
 	P_inv = inv(R*xx_inv*R');
+    <span class="keyword">catch</span>
+        der_stop = 1;
+    <span class="keyword">end</span>
 	b = b - xx_inv*R'*P_inv*(R*b-r);
 
 	e = y-x*b;
@@ -378,6 +460,8 @@ stop_code = 1;
 </span><span class="comment">
 </span><span class="comment">This code calculates F, Wald, Score and Likelihood Ratio tests for
 </span><span class="comment">linear model y=XB+e e~N(0,sig^2*I_n) subject to linear restrictions RB=r
+</span><span class="comment">
+</span><span class="comment">The null is H_{0}:RB=r
 </span><span class="comment">inputs:
 </span><span class="comment"> 		 y: nx1 dependent variable
 </span><span class="comment"> 		 x: nxk regressor matrix
@@ -701,21 +785,38 @@ names = [names; names; names; names; names]; % copy 5 times for Chow test
 % $R\beta = r$
 %
 % In our case for HOD1 we need $r=1$ and $R=(0,0,1,1,1)$
+%
+% The null hypothesis for qF,Wald,LR test below is: 
+%
+% $H_{0}: R\beta = r$  
+%
+% $H_{1}: R\beta \neq r$
+% 
+% We cannot reject the null (the p-value is above 0.05), meaning that we cannot reject
+% Homogeneity
 
 % First Homogeneity of Degree 1 (HOD1)
 R = [0, 0, 1, 1, 1];
 r = 1;
-
 % Imposing and testing HOD1
 mc_olsr(y, x, R, r, names);
-TestStatistics(y, x, R, r);
+TestStatistics(y, x, R, r); 
+
+%%
+% For some reason the output of this example is comming at the end of the
+% page.
 
 %%
 % *Testing Constant Returns to scale (CRS)*
 % 
-% $R\beta = r$
-%
 % In our case for CRS we need $r=1$ and $R=(0,1,0,0,0)$
+%
+% $H_{0}: R\beta = r$  
+%
+% $H_{1}: R\beta \neq r$
+% 
+% We reject the null (the p-value is below 0.05), meaning that we reject
+% the assumption of constant returns to scale.
 
 % Now Constant Returs to Scale (CRTS)
 R = [0, 1, 0, 0, 0];
@@ -746,18 +847,15 @@ TestStatistics(y, x, R, r);
 %
 % In Matrix form
 %
-%  $\left[\begin{array}{c}y_{1} \\y_{2} \\y_{3} \\y_{4} \\y_{5}  \end{array}\right] \left[\begin{array}{ccccc} X&0&0&0&0 \\ 0&X&0&0&0 \\ 0&0&X&0&0 \\ 0&0&0&X&0 \\ 0&0&0&0&X \end{array}\right] \left[\begin{array}{c}\beta_{1} \\ \beta_{2} \\ \beta_{3} \\ \beta_{4} \\ \beta_{5}  \end{array}\right] \left[\begin{array}{c} \epsilon_{1} \\ \epsilon_{2} \\ \epsilon_{3} \\ \epsilon_{4} \\ \epsilon_{5}  \end{array}\right]$ 
+% $\left[\begin{array}{c}y_{1} \\ y_{2} \\ y_{3} \\ y_{4} \\ y_{5}  \end{array}\right]=\left[\begin{array}{ccccc}X_{1}&0&0&0&0 \\ 0&X_{2}&0&0&0 \\ 0&0&X_{3}&0&0 \\ 0&0&0&X_{4}&0 \\ 0&0&0&0&X_{5}  \end{array}\right]\left[\begin{array}{c}\beta^{1} \\ \beta^{2} \\ \beta^{3} \\ \beta^{4} \\ \beta^{5}  \end{array}\right]\left[\begin{array}{c}\epsilon_{1} \\ \epsilon_{2} \\ \epsilon_{3} \\ \epsilon_{4} \\ \epsilon_{5}  \end{array}\right]$ 
 %
-%  The null to test is that the parameter vectors for the separate groups
-%  are all the same, that is:
-%
-% $\beta_{1}=\beta_{2}=...=\beta_{5}$
-%
-
+% We define $\beta^{j} = (\beta_{1},\beta_{2,j},\beta_{3,j},\beta_{4,j},\beta_{5,j})$
+% 
 
 % Create the block diagonal X matrix corresponding to separate coefficients
 big_x = zeros(n,5*k);
 %x_A = NaN()
+x_old = x;
 for i=1:k
 	startrow = (i-1)*29+1;
 	endrow = i*29;
@@ -773,7 +871,8 @@ x = big_x;
 
 %%
 % *Visual Inspection*
-% Nerlove model: 5 separate regressions for different output levels
+%
+% Nerlove model: 5 separate regressions, one per each group of firms
 
 b = mc_ols(y, x, names);
 output = 1:5;
@@ -792,6 +891,15 @@ legend('RTS')
 
 %%
 % *Chow test*
+%
+% When performing the Chow Tets the null to test is that the parameter vectors for the separate groups
+% are all the same, that is:
+%
+% $H_{0}: \beta^{1}=\beta^{2}=...=\beta^{5}$
+%
+% We reject the null, then the estimated coefficients are different for the 5 groups.
+% 
+
 R = eye(5);
 Z = zeros(5,5);
 R = [
@@ -802,12 +910,15 @@ R = [
 	];
 r = zeros(20,1);
 
-% Chow test: note that the restricted model gives the same results as the original model
+% Chow test:
 mc_olsr(y, x, R, r, names);
 TestStatistics(y, x, R, r);
 
 %%
-% Pick another reference:
+% Pick another reference, results should be the same
+% 
+% Chow test: note that the restricted model gives the same results as the original model
+
 R = eye(5);
 Z = zeros(5,5);
 R = [
@@ -818,13 +929,38 @@ R = [
 	];
 r = zeros(20,1);
 
-% Chow test: note that the restricted model gives the same results as the original model
 mc_olsr(y, x, R, r, names);
 TestStatistics(y, x, R, r);
 
+%%
+% *Run the Chow test only the last two groups:*
+
+% Trim the data
+% ng: Choose number of groups :
+%
+
+ng = 2;
+ni = 5-ng;
+y = y(29*ni+1:end,1);
+x = x(29*ni+1:end,5*ni+1:end);
 
 
-stop_code = 1;
+R = eye(5);
+Z = zeros(5,5);
+
+R = [R -R];
+r = zeros(5*(ng-1),1);
+
+%% 
+% Chow test: note that we still reject the null, but only at the 95% level,
+% not at 90% anymore
+mc_olsr(y, x, R, r, names);
+TestStatistics(y, x, R, r);
+
+%%
+% Display Code ends for publication
+disp('code ends')
+
 %%
 % Functions
 
@@ -874,7 +1010,11 @@ the Free Software Foundation
 	k = size(x,2);
 	q = size(R,1);
 
+    try
 	P_inv = inv(R*xx_inv*R');
+    catch
+        der_stop = 1;
+    end
 	b = b - xx_inv*R'*P_inv*(R*b-r);
 
 	e = y-x*b;
@@ -932,6 +1072,8 @@ the Free Software Foundation
 
 This code calculates F, Wald, Score and Likelihood Ratio tests for
 linear model y=XB+e e~N(0,sig^2*I_n) subject to linear restrictions RB=r
+
+The null is H_{0}:RB=r
 inputs:
  		 y: nx1 dependent variable
  		 x: nxk regressor matrix
