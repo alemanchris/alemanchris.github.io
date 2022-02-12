@@ -67,7 +67,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Econometrics I</h1><pre>TA Christian Alem&aacute;n</pre><p><b>Session 4: Friday 11, February 2022</b></p><p>Based on Prof.Michael Creel's Lecture Notes And Fumio Ayashi's Book Econometrics section 1.7</p><p><b>Activity 1: "Replicating Nerlove"</b></p><p>Nerlove&#8217;s 1963 paper is a classic study of returns to scale in a regulated industry.</p><p>Firms Minimize Cost, subject to a Constant Returns to Scale Production Function (Cobb-Douglas)</p><p><img src="s4_eq15301605162195015549.png" alt="$Q = F\,Pl^{\alpha_{1}}\,Pf^{\alpha_{2}}\,Pk^{\alpha_{3}}$"></p><p>Recall that we have constant returns to scale if:</p><p><img src="s4_eq02323938689524218793.png" alt="$\sum_{i}\alpha_{i} = r = 1$"></p><p>Solving the minization problem we find that the Cost Function is also Cobb-Douglas:</p><p><img src="s4_eq10848000758254557504.png" alt="$C = A\,Q^{1/r}\,Pl^{\alpha_{1}/r}\,Pf^{\alpha_{2}/r}\,Pk^{\alpha_{3}/r}\,e^{\epsilon}$"></p><p>Whats more, the cost function above will be homogeneous of degree 1 (HOD1) if <img src="s4_eq17688743367812363219.png" alt="$\sum_{i}=\alpha_{i}/r = 1$"></p><p>We can rewrite the above cost function as:</p><p><img src="s4_eq07138727043602863830.png" alt="$C = A\,Q^{\beta_{1}}\,Pl^{\beta_{2}}\,Pf^{\beta_{3}/r}\,Pk^{\beta_{4}/r}\,e^{\epsilon}$"></p><p>Take the logs</p><p><img src="s4_eq01242306533388566086.png" alt="$ln(C) = \beta_{1} +\beta_{2}ln(Q)+\beta_{3}ln(Pl)+\beta_{4}ln(Pf)+\beta_{5}ln(Pl)+ \epsilon$"></p><p><b>Our Data</b></p><p>Data on Company's:</p><div><ol><li>COST(C)</li><li>OUTPUT(Q)</li><li>PRICE OFLABOR(PL)</li><li>PRICE OF FUEL(PF)</li><li>PRICE OF CAPITAL(PK).</li></ol></div><p>We are ready to run some tests!</p><p>We want to test:</p><div><ol><li>Constant Returns to Scale (CRS) assumption</li><li>Homogeneity of degree 1</li><li>Understant whether CRS changes with size of the company</li></ol></div><p>Our Tools:</p><div><ol><li>Restricted estimation:</li><li>Testing: Chow-test</li></ol></div><pre class="codeinput"><span class="comment">% Housekeeping</span>
+  </style></head><body><div class="content"><h1>Econometrics I</h1><pre>TA Christian Alem&aacute;n</pre><p><b>Session 4: Friday 11, February 2022</b></p><p>Based on Prof.Michael Creel's Lecture Notes And Fumio Ayashi's Book Econometrics section 1.7</p><p><b>Activity 1: "Replicating Nerlove"</b></p><p>Nerlove&#8217;s 1963 paper is a classic study of returns to scale in a regulated industry.</p><p>Firms Minimize Cost:</p><p><img src="s4_eq00872818027056265386.png" alt="$C = p_{l}l+p_{f}f+p_{k}k$"></p><p>Subject to a Constant Returns to Scale Production Function (Cobb-Douglas)</p><p><img src="s4_eq13664221515052452197.png" alt="$Q = F\,l^{\alpha_{1}}\,f^{\alpha_{2}}\,k^{\alpha_{3}}$"></p><p>Where <img src="s4_eq08582068327367301141.png" alt="$l,f,k$"> are the inputs, labor, fuel and capital respectively.</p><p>Equilibirum prices are respectively <img src="s4_eq13099730556740886806.png" alt="$p_{l},p_{f},p_{k}$">.</p><p>Recall that we have constant returns to scale if:</p><p><img src="s4_eq02323938689524218793.png" alt="$\sum_{i}\alpha_{i} = r = 1$"></p><p>Solving the minization problem we find that the Cost Function is also Cobb-Douglas:</p><p><img src="s4_eq14495128433129698967.png" alt="$C = A\,Q^{1/r}\,p_{l}^{\alpha_{1}/r}\,p_{f}^{\alpha_{2}/r}\,p_{k}^{\alpha_{3}/r}\,e^{\epsilon}$"></p><p>Whats more, the cost function above will be homogeneous of degree 1 (HOD1) if <img src="s4_eq17688743367812363219.png" alt="$\sum_{i}=\alpha_{i}/r = 1$"></p><p>We can rewrite the above cost function as:</p><p><img src="s4_eq05771126383748129858.png" alt="$C = A\,Q^{\beta_{1}}\,p_{l}^{\beta_{2}}\,p_{f}^{\beta_{3}}\,p_{k}^{\beta_{4}}\,e^{\epsilon}$"></p><p>Take the logs</p><p><img src="s4_eq14518938622801017058.png" alt="$ln(C) = \beta_{1} +\beta_{2}ln(Q)+\beta_{3}ln(p_{l})+\beta_{4}ln(p_{f})+\beta_{5}ln(p_{l})+ \epsilon$"></p><p><b>Our Data</b></p><p>Data on Company's:</p><div><ol><li>COST(C)</li><li>OUTPUT(Q)</li><li>PRICE OFLABOR <img src="s4_eq09374456777668162657.png" alt="$(p_{L})$"></li><li>PRICE OF FUEL <img src="s4_eq15798463487952472746.png" alt="$(p_{f})$"></li><li>PRICE OF CAPITAL <img src="s4_eq16020040975253460740.png" alt="$(p_{K})$">.</li></ol></div><p>We are ready to run some tests!</p><p>We want to test:</p><div><ol><li>Constant Returns to Scale (CRS) assumption</li><li>Homogeneity of degree 1</li><li>Understant whether CRS changes with size of the company</li></ol></div><p>Our Tools:</p><div><ol><li>Restricted estimation:</li><li>Testing: Chow-test</li></ol></div><pre class="codeinput"><span class="comment">% Housekeeping</span>
 clc
 close <span class="string">all</span>
 clear <span class="string">all</span>
@@ -706,10 +706,18 @@ Score       0.592       0.442
 %
 % Nerlove’s 1963 paper is a classic study of returns to scale in a regulated industry.
 %
-% Firms Minimize Cost, subject to a Constant Returns to Scale Production
+% Firms Minimize Cost:
+%
+% $C = p_{l}l+p_{f}f+p_{k}k$
+%
+% Subject to a Constant Returns to Scale Production
 % Function (Cobb-Douglas)
 %
-% $Q = F\,Pl^{\alpha_{1}}\,Pf^{\alpha_{2}}\,Pk^{\alpha_{3}}$
+% $Q = F\,l^{\alpha_{1}}\,f^{\alpha_{2}}\,k^{\alpha_{3}}$
+%
+% Where $l,f,k$ are the inputs, labor, fuel and capital respectively.
+%
+% Equilibirum prices are respectively $p_{l},p_{f},p_{k}$.
 %
 % Recall that we have constant returns to scale if:
 %
@@ -718,18 +726,18 @@ Score       0.592       0.442
 % Solving the minization problem we find that the Cost Function is also
 % Cobb-Douglas:
 %
-% $C = A\,Q^{1/r}\,Pl^{\alpha_{1}/r}\,Pf^{\alpha_{2}/r}\,Pk^{\alpha_{3}/r}\,e^{\epsilon}$
+% $C = A\,Q^{1/r}\,p_{l}^{\alpha_{1}/r}\,p_{f}^{\alpha_{2}/r}\,p_{k}^{\alpha_{3}/r}\,e^{\epsilon}$
 %
 % Whats more, the cost function above will be homogeneous of degree 1
 % (HOD1) if $\sum_{i}=\alpha_{i}/r = 1$
 %
 % We can rewrite the above cost function as:
 %
-% $C = A\,Q^{\beta_{1}}\,Pl^{\beta_{2}}\,Pf^{\beta_{3}/r}\,Pk^{\beta_{4}/r}\,e^{\epsilon}$
+% $C = A\,Q^{\beta_{1}}\,p_{l}^{\beta_{2}}\,p_{f}^{\beta_{3}}\,p_{k}^{\beta_{4}}\,e^{\epsilon}$
 %
 % Take the logs
 %
-% $ln(C) = \beta_{1} +\beta_{2}ln(Q)+\beta_{3}ln(Pl)+\beta_{4}ln(Pf)+\beta_{5}ln(Pl)+ \epsilon$
+% $ln(C) = \beta_{1} +\beta_{2}ln(Q)+\beta_{3}ln(p_{l})+\beta_{4}ln(p_{f})+\beta_{5}ln(p_{l})+ \epsilon$
 %
 % *Our Data*
 %
@@ -737,9 +745,9 @@ Score       0.592       0.442
 %
 % # COST(C)
 % # OUTPUT(Q)
-% # PRICE OFLABOR(PL)
-% # PRICE OF FUEL(PF)
-% # PRICE OF CAPITAL(PK).
+% # PRICE OFLABOR $(p_{L})$
+% # PRICE OF FUEL $(p_{f})$
+% # PRICE OF CAPITAL $(p_{K})$.
 %
 % We are ready to run some tests!
 %
