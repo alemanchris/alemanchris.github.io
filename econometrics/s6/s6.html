@@ -67,7 +67,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Econometrics I</h1><pre>TA Christian Alem&aacute;n</pre><p><b>Session 6: Friday 25, February 2022</b></p><p><b>Activity 1: Hetoskedasticity</b></p><p><b>Simulating Hetoskedasticity</b></p><p><b>1.1: With Normal Errors:</b></p><p>Consider the model</p><p><img src="s6_eq05998836314605936363.png" alt="$y_{i} = \beta_{0}+\beta_{1}x_{i}+\epsilon_{i}$"></p><p><img src="s6_eq07474211892256132982.png" alt="$x\sim U[a,b]$">   and   <img src="s6_eq12676969628705722367.png" alt="$\epsilon \sim \mathcal{N}(0,\Sigma)$"></p><p><img src="s6_eq16487210253175665890.png" alt="$\Sigma=\left[\begin{array}{cccc} \sigma^{2}_{1}&amp;0&amp; \dots &amp;0 \\ 0&amp;\sigma^{2}_{2}&amp;\dots&amp;\vdots  \\ \vdots&amp;\vdots&amp;\ddots&amp;\vdots \\ 0&amp;\dots&amp;0&amp;\sigma^{2}_{n}  \end{array}\right]$"></p><pre class="codeinput"><span class="comment">% Housekeeping</span>
+  </style></head><body><div class="content"><h1>Econometrics I</h1><pre>TA Christian Alem&aacute;n</pre><p><b>Session 6: Friday 25, February 2022</b></p><p><b>Activity 1: Hetoskedasticity</b></p><p><b>Simulating Hetoskedasticity</b></p><p><b>1.1: With Normal Errors:</b></p><p>Consider the model</p><p><img src="s6_eq14018086605193769028.png" alt="$y_{i} = \beta_{0}+\beta_{1}x1_{i}+\beta_{2}x2_{i}+\epsilon_{i}$"></p><p><img src="s6_eq08671165699649132728.png" alt="$x\sim \mathcal{N}(0,\sigma^{2})$">   and   <img src="s6_eq12676969628705722367.png" alt="$\epsilon \sim \mathcal{N}(0,\Sigma)$"></p><p><img src="s6_eq16487210253175665890.png" alt="$\Sigma=\left[\begin{array}{cccc} \sigma^{2}_{1}&amp;0&amp; \dots &amp;0 \\ 0&amp;\sigma^{2}_{2}&amp;\dots&amp;\vdots  \\ \vdots&amp;\vdots&amp;\ddots&amp;\vdots \\ 0&amp;\dots&amp;0&amp;\sigma^{2}_{n}  \end{array}\right]$"></p><pre class="codeinput"><span class="comment">% Housekeeping</span>
 clear <span class="string">all</span>
 close <span class="string">all</span>
 clc
@@ -75,48 +75,43 @@ clc
 rng(123)
 
 <span class="comment">% Parameters</span>
+
 par.beta0 = 1;      <span class="comment">% Intercept</span>
 par.beta1 = 2;      <span class="comment">% Slope</span>
-par.sigma = 1;      <span class="comment">% Standard deviation normal</span>
-par.ub = 100;
-par.lb = 0;
 par.n = 200;
 
 <span class="comment">% Simulate the Data Generating process</span>
 
-aux_z = rand(par.n,1)*7;
-
-<span class="comment">% The standard deviation of e is 1 plus 1.5z</span>
-
-vars.eho = ((2)).*randn(par.n,1);
-vars.ehe = ((20+10*aux_z)).*randn(par.n,1);
-vars.x = unifrnd(par.lb,par.ub,par.n,1);
-
-vars.y = par.beta0 +par.beta1.*vars.x +vars.ehe;
+k = 3;
+vars.x = randn(par.n,k-1);
+vars.eho = (2) .* randn(par.n,1); <span class="comment">% heteroscedastic errors</span>
+vars.ehe = (1+vars.x(:,k-1)) .* randn(par.n,1); <span class="comment">% heteroscedastic errors</span>
+vars.y = par.beta0 + par.beta1.*vars.x(:,1)+ par.beta1.*vars.x(:,2)  + vars.ehe;
 </pre><p>Plot our conditional residuals</p><pre class="codeinput">figure(1)
 hold <span class="string">on</span>
-plot(aux_z,vars.eho,<span class="string">'ko'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'k'</span>)
+plot(10+vars.x(:,k-1),vars.eho,<span class="string">'ko'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'k'</span>)
 yline(0)
 xlabel(<span class="string">'$z$'</span>,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'Fontsize'</span>,16)
 ylabel(<span class="string">'$\epsilon$'</span>,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'FontSize'</span>,16)
 title(<span class="string">'Homoscedasticity'</span>)
 figure(2)
 hold <span class="string">on</span>
-plot(aux_z,vars.ehe,<span class="string">'ko'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'k'</span>)
+plot(10+vars.x(:,k-1),vars.ehe,<span class="string">'ko'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'k'</span>)
 yline(0)
 xlabel(<span class="string">'$z$'</span>,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'Fontsize'</span>,16)
 ylabel(<span class="string">'$\epsilon$'</span>,<span class="string">'interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'Fontsize'</span>,16)
 title(<span class="string">'Heteroscedasticity'</span>)
 
 <span class="comment">% Estimate OLS</span>
-[beta,sigma,e,se] = my_ols(vars.y,[ones(par.n,1),vars.x]);
-t=table(beta,se);
+[beta,sigma,e,se,se_rob] = my_ols(vars.y,[ones(par.n,1),vars.x]);
+t=table(beta,se,se_rob);
 disp(t)
-</pre><pre class="codeoutput">     beta       se   
-    ______    _______
+</pre><pre class="codeoutput">     beta       se       se_rob 
+    ______    _______    _______
 
-    15.411     8.1985
-    1.7845    0.13496
+    1.2525    0.10352    0.10418
+    2.2279    0.11922    0.11104
+    2.2043    0.10046    0.14658
 
 </pre><img vspace="5" hspace="5" src="s6_01.png" alt=""> <img vspace="5" hspace="5" src="s6_02.png" alt=""> <p>Visual Inspection</p><pre class="codeinput">figure(3)
 hold <span class="string">on</span>
@@ -128,40 +123,34 @@ title(<span class="string">'Visual Inspection'</span>)
 </pre><img vspace="5" hspace="5" src="s6_03.png" alt=""> <p><b>White Test</b></p><p><img src="s6_eq17153889864262985390.png" alt="$H_{0}:$"> Homoscedasticity</p><pre class="codeinput">[value, pvalue] = my_white(e,[ones(par.n,1),vars.x]);
 t = table(pvalue);
 disp(t)
-disp(t)
 <span class="keyword">if</span> pvalue&lt;0.05
     disp(<span class="string">'Reject Homoscedasticity'</span>)
 <span class="keyword">else</span>
     disp(<span class="string">'Cannot Reject Homoscedasticity'</span>)
 <span class="keyword">end</span>
-</pre><pre class="codeoutput">     pvalue 
-    ________
+</pre><pre class="codeoutput">      pvalue  
+    __________
 
-    0.042419
-
-     pvalue 
-    ________
-
-    0.042419
+    9.3292e-10
 
 Reject Homoscedasticity
 </pre><p><b>Estimate GLS</b></p><pre class="codeinput">opt.het = 1;        <span class="comment">% Heteroskedasticity</span>
 [beta_gls,e,se_gls] = my_gls(vars.y,[ones(par.n,1),vars.x],opt);
 
-betas_1 =  [beta(2);beta_gls(2)];
-method = {<span class="string">'OLS'</span>;<span class="string">'FGLS'</span>};
-s_err = [se(2);se_gls(2)];
+betas_1 =  [beta(2);NaN;beta_gls(2)];
+method = {<span class="string">'OLS'</span>;<span class="string">'E-White'</span>;<span class="string">'FGLS'</span>};
+s_err = [se(2);se_rob(2);se_gls(2)];
 t = table(method,betas_1,s_err);
 disp(t)
 </pre><p>Lets Compute Bootstrap SE</p><pre class="codeinput">par.B = 1000;<span class="comment">%</span>
-par.K = 2;
+par.K = k;
 hbeta_sample =NaN(par.B,par.K);
-rng(234)
-<span class="keyword">for</span> i = 1:par.B
 
-    I_sample = ceil(par.n*rand(1,par.n));
+<span class="keyword">for</span> i = 1:par.B
+    rng(i)
+    I_sample = ceil(par.n*rand(par.n,1));
     ysample = vars.y(I_sample);
-    xsample(:,1) = vars.x(I_sample,1);
+    xsample = vars.x(I_sample,:);
 
     hbeta_sample(i,:)  = ([ones(par.n,1),xsample]\ysample)';
 <span class="keyword">end</span>
@@ -169,19 +158,44 @@ diff = hbeta_sample-repmat(beta',par.B,1);
 bootVCV = diff'*diff/par.B;
 vars.SEbeta_hat_boot = sqrt(diag(bootVCV));
 
-betas_1 =  [beta(2);beta_gls(2);mean(hbeta_sample(:,2))];
-method = {<span class="string">'OLS'</span>;<span class="string">'FGLS'</span>;<span class="string">'Bootstrap'</span>};
-s_err = [se(2);se_gls(2);vars.SEbeta_hat_boot(2)];
+disp(<span class="string">'Results Using Our Functions'</span>)
+betas_1 =  [beta(2);NaN;beta_gls(2);mean(hbeta_sample(:,2))];
+method = {<span class="string">'OLS'</span>;<span class="string">'E-White'</span>;<span class="string">'FGLS'</span>;<span class="string">'Bootstrap'</span>};
+s_err = [se(2);se_rob(2);se_gls(2);vars.SEbeta_hat_boot(2)];
 t = table(method,betas_1,s_err);
 disp(t)
-</pre><pre class="codeoutput">       method        betas_1     s_err  
-    _____________    _______    ________
 
-    {'OLS'      }    1.7845      0.13496
-    {'FGLS'     }    1.7974     0.024771
-    {'Bootstrap'}    1.7807      0.14531
+<span class="comment">% Lets compare with the matlab inbuilt functions:</span>
+[~,mse_rob,~] = hac(vars.x,vars.y,<span class="string">'type'</span>,<span class="string">'HC'</span>,<span class="string">'display'</span>,<span class="string">'off'</span>);
+[coeff,se_gls] = fgls(vars.x,vars.y,<span class="string">'innovMdl'</span>,<span class="string">'HC0'</span>,<span class="string">'display'</span>,<span class="string">'off'</span>);
+m1 = fitlm(vars.x,vars.y);
+se_ols = m1.Coefficients.SE;
+coeff_ols = m1.Coefficients.Estimate;
 
-</pre><p><b>1.2: With Uniform Errors:</b></p><p>Consider the model</p><p><img src="s6_eq05998836314605936363.png" alt="$y_{i} = \beta_{0}+\beta_{1}x_{i}+\epsilon_{i}$"></p><p><img src="s6_eq07474211892256132982.png" alt="$x\sim U[a,b]$">   and   <img src="s6_eq11889314767410893101.png" alt="$\epsilon \sim U[-z,z]$"></p><p>Estimate OLS</p><pre class="codeinput">par.ub = 100;
+disp(<span class="string">'Results Using Inbuilt Matlab'</span>)
+betas_1 =  [coeff_ols(2);NaN;coeff(2)];
+method = {<span class="string">'OLS'</span>;<span class="string">'E-White'</span>;<span class="string">'FGLS'</span>};
+s_err = [se_ols(2);mse_rob(2);se_gls(2)];
+t = table(method,betas_1,s_err);
+disp(t)
+</pre><pre class="codeoutput">Results Using Our Functions
+       method        betas_1      s_err  
+    _____________    _______    _________
+
+    {'OLS'      }    2.2279       0.11922
+    {'E-White'  }       NaN       0.11104
+    {'FGLS'     }    2.2286     0.0060634
+    {'Bootstrap'}    2.2264       0.11177
+
+Results Using Inbuilt Matlab
+      method       betas_1      s_err  
+    ___________    _______    _________
+
+    {'OLS'    }    2.2279       0.12013
+    {'E-White'}       NaN       0.11104
+    {'FGLS'   }    2.2286     0.0061093
+
+</pre><p><b>1.2: With Uniform Errors:</b></p><p>Consider the model</p><p><img src="s6_eq14018086605193769028.png" alt="$y_{i} = \beta_{0}+\beta_{1}x1_{i}+\beta_{2}x2_{i}+\epsilon_{i}$"></p><p><img src="s6_eq08671165699649132728.png" alt="$x\sim \mathcal{N}(0,\sigma^{2})$">   and   <img src="s6_eq11889314767410893101.png" alt="$\epsilon \sim U[-z,z]$"></p><p>Estimate OLS</p><pre class="codeinput">par.ub = 100;
 par.lb = 0;
 aux_z = rand(par.n,1).*7;
 
@@ -190,7 +204,13 @@ vars.x(:,1) = unifrnd(par.lb,par.ub,par.n,1);
 vars.x(:,2) = aux_z;
 vars.y = par.beta0 +par.beta1.*vars.x(:,1) +par.beta1.*vars.x(:,2) +vars.ehe;
 
-[beta,sigma,e,se] = my_ols(vars.y,[ones(par.n,1),vars.x]);
+
+k = 3;
+<span class="comment">%vars.x = randn(par.n,k-1);</span>
+vars.ehe = (1+vars.x(:,k-1)) .*(rand(par.n,1)-0.5); <span class="comment">% heteroscedastic errors</span>
+vars.y = par.beta0 + par.beta1.*vars.x(:,1)+ par.beta1.*vars.x(:,2)  + vars.ehe;
+
+[beta,sigma,e,se,se_rob] = my_ols(vars.y,[ones(par.n,1),vars.x]);
 </pre><p>Visual Inspection</p><pre class="codeinput">figure(4)
 hold <span class="string">on</span>
 plot(vars.x(:,2),vars.ehe,<span class="string">'ko'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'k'</span>)
@@ -209,18 +229,18 @@ disp(t)
 </pre><pre class="codeoutput">      pvalue  
     __________
 
-    1.7313e-09
+    8.8041e-14
 
 Reject Homoscedasticity
 </pre><p>Estimate GLS and Bootstrap SE</p><pre class="codeinput">[beta_gls,~,se_gls] = my_gls(vars.y,[ones(par.n,1),vars.x],opt);
 
 par.B = 1000;<span class="comment">%</span>
-par.K = 3;
+par.K = k;
 hbeta_sample =NaN(par.B,par.K);
-rng(234)
-<span class="keyword">for</span> i = 1:par.B
 
-    I_sample = ceil(par.n*rand(1,par.n));
+<span class="keyword">for</span> i = 1:par.B
+    rng(i)
+    I_sample = ceil(par.n*rand(par.n,1));
     ysample = vars.y(I_sample);
     xsample = vars.x(I_sample,:);
 
@@ -230,29 +250,57 @@ diff = hbeta_sample-repmat(beta',par.B,1);
 bootVCV = diff'*diff/par.B;
 vars.SEbeta_hat_boot = sqrt(diag(bootVCV));
 
-betas_1 =  [beta(2);beta_gls(2);mean(hbeta_sample(:,2))];
-method = {<span class="string">'OLS'</span>;<span class="string">'FGLS'</span>;<span class="string">'Bootstrap'</span>};
-s_err = [se(2);se_gls(2);vars.SEbeta_hat_boot(2)];
+disp(<span class="string">'Results Using our own functions'</span>)
+betas_1 =  [beta(2);NaN;beta_gls(2);mean(hbeta_sample(:,2))];
+method = {<span class="string">'OLS'</span>;<span class="string">'E-White'</span>;<span class="string">'FGLS'</span>;<span class="string">'Bootstrap'</span>};
+s_err = [se(2);se_rob(2);se_gls(2);vars.SEbeta_hat_boot(2)];
 t = table(method,betas_1,s_err);
 disp(t)
-</pre><pre class="codeoutput">       method        betas_1      s_err  
-    _____________    _______    _________
 
-    {'OLS'      }     2.019        0.0383
-    {'FGLS'     }    2.0087     0.0056683
-    {'Bootstrap'}    2.0214      0.036392
+<span class="comment">% Lets compare with the matlab inbuilt functions:</span>
+[~,mse_rob,~] = hac(vars.x,vars.y,<span class="string">'type'</span>,<span class="string">'HC'</span>,<span class="string">'display'</span>,<span class="string">'off'</span>);
+[coeff,se_gls] = fgls(vars.x,vars.y,<span class="string">'innovMdl'</span>,<span class="string">'HC0'</span>,<span class="string">'display'</span>,<span class="string">'off'</span>);
+m1 = fitlm(vars.x,vars.y);
+se_ols = m1.Coefficients.SE;
+coeff_ols = m1.Coefficients.Estimate;
 
-</pre><p><b>Activity 2: Autocorrelated Errors</b></p><p><b>Simulating AR(1) errors</b></p><p>Consider the model</p><p><img src="s6_eq05998836314605936363.png" alt="$y_{i} = \beta_{0}+\beta_{1}x_{i}+\epsilon_{i}$"></p><p><img src="s6_eq07474211892256132982.png" alt="$x\sim U[a,b]$">   and   <img src="s6_eq07945187489341872219.png" alt="$\epsilon_{i} = \rho\epsilon_{i-1}+u$"></p><p>and <img src="s6_eq06658811080705620356.png" alt="$u \sim \mathcal{N}(0,\sigma^{2})$"></p><p><img src="s6_eq11295922202423636942.png" alt="$\Sigma=\left[\begin{array}{ccccc} 1&amp;\rho&amp; \rho^{2}&amp; \dots &amp;\rho^{n-1} \\ \rho&amp;1&amp;\dots&amp;\dots&amp;\rho^{n-2}  \\ \rho^{2}&amp;\vdots&amp;1&amp;\vdots&amp;\vdots \\ \vdots&amp;\vdots&amp;\vdots&amp;1&amp;\rho \\ \rho^{n-1}&amp;\dots&amp;\dots&amp;\dots&amp;1  \end{array}\right]$"></p><pre class="codeinput">par.rho = 0.7;
+disp(<span class="string">'Results Using Inbuilt Matlab'</span>)
+betas_1 =  [coeff_ols(2);NaN;coeff(2)];
+method = {<span class="string">'OLS'</span>;<span class="string">'E-White'</span>;<span class="string">'FGLS'</span>};
+s_err = [se_ols(2);mse_rob(2);se_gls(2)];
+t = table(method,betas_1,s_err);
+disp(t)
+</pre><pre class="codeoutput">Results Using our own functions
+       method        betas_1      s_err   
+    _____________    _______    __________
+
+    {'OLS'      }     1.999      0.0035595
+    {'E-White'  }       NaN      0.0032256
+    {'FGLS'     }    1.9992     0.00033118
+    {'Bootstrap'}    1.9992      0.0033158
+
+Results Using Inbuilt Matlab
+      method       betas_1      s_err  
+    ___________    _______    _________
+
+    {'OLS'    }     1.999     0.0035865
+    {'E-White'}       NaN     0.0032256
+    {'FGLS'   }    1.9992     0.0003337
+
+</pre><p><b>Activity 2: Autocorrelated Errors</b></p><p><b>Simulating AR(1) errors</b></p><p>Consider the model</p><p><img src="s6_eq05998836314605936363.png" alt="$y_{i} = \beta_{0}+\beta_{1}x_{i}+\epsilon_{i}$"></p><p><img src="s6_eq07474211892256132982.png" alt="$x\sim U[a,b]$">   and   <img src="s6_eq07945187489341872219.png" alt="$\epsilon_{i} = \rho\epsilon_{i-1}+u$"></p><p>and <img src="s6_eq06658811080705620356.png" alt="$u \sim \mathcal{N}(0,\sigma^{2})$"></p><p><img src="s6_eq11295922202423636942.png" alt="$\Sigma=\left[\begin{array}{ccccc} 1&amp;\rho&amp; \rho^{2}&amp; \dots &amp;\rho^{n-1} \\ \rho&amp;1&amp;\dots&amp;\dots&amp;\rho^{n-2}  \\ \rho^{2}&amp;\vdots&amp;1&amp;\vdots&amp;\vdots \\ \vdots&amp;\vdots&amp;\vdots&amp;1&amp;\rho \\ \rho^{n-1}&amp;\dots&amp;\dots&amp;\dots&amp;1  \end{array}\right]$"></p><pre class="codeinput">par.rho = 0.9;
 vars.eau = NaN(par.n,1);
 vars.eau(1,1) = randn(1,1)/sqrt(1-par.rho^2);  <span class="comment">% The trend of the AR(1) process</span>
 <span class="keyword">for</span> i = 2:par.n
     rng(12300+i)
-  vars.eau(i,1) = par.rho*vars.eau(i-1,1) + 0.1*randn(1,1); <span class="comment">%</span>
+  vars.eau(i,1) = par.rho*vars.eau(i-1,1) + 5*randn(1,1); <span class="comment">%</span>
 <span class="keyword">end</span>
-vars.x = unifrnd(par.lb,par.ub,par.n,1);
-vars.y = par.beta0 +par.beta1.*vars.x +vars.eau;
+<span class="comment">%par.ub = 100;</span>
+<span class="comment">%par.lb = 0;</span>
+<span class="comment">%vars.x = unifrnd(par.lb,par.ub,par.n,1);</span>
+vars.y = par.beta0 +par.beta1.*vars.x(:,1)+par.beta1.*vars.x(:,2) +vars.eau;
 
-[beta,sigma,e,se] = my_ols(vars.y,[ones(par.n,1),vars.x]);
+[beta,sigma,e,se,~] = my_ols(vars.y,[ones(par.n,1),vars.x]);
+se_rob=my_newey(e,[ones(par.n,1),vars.x],1);
 </pre><p>Visual Inspection</p><pre class="codeinput">figure(5)
 hold <span class="string">on</span>
 plot(e(2:end),e(1:end-1),<span class="string">'ko'</span>,<span class="string">'MarkerFaceColor'</span>,<span class="string">'k'</span>)
@@ -271,18 +319,18 @@ disp(t)
 </pre><pre class="codeoutput">      pvalue  
     __________
 
-    1.1739e-30
+    1.3004e-64
 
 Reject Null: there is autocorrelation
-</pre><p><b>Estimate GLS and Bootstrap SE</b></p><pre class="codeinput">opt.het = 1;
+</pre><p><b>Estimate GLS and Bootstrap SE</b></p><pre class="codeinput">opt.het = 0;
 [beta_gls,e,se_gls] = my_gls(vars.y,[ones(par.n,1),vars.x],opt);
 par.B = 1000;<span class="comment">%</span>
-par.K = 2;
+par.K = k;
 hbeta_sample =NaN(par.B,par.K);
-rng(234)
-<span class="keyword">for</span> i = 1:par.B
 
-    I_sample = ceil(par.n*rand(1,par.n));
+<span class="keyword">for</span> i = 1:par.B
+    rng(i)
+    I_sample = ceil(par.n*rand(par.n,1));
     ysample = vars.y(I_sample);
     xsample = vars.x(I_sample,:);
 
@@ -291,9 +339,25 @@ rng(234)
 diff = hbeta_sample-repmat(beta',par.B,1);
 bootVCV = diff'*diff/par.B;
 vars.SEbeta_hat_boot = sqrt(diag(bootVCV));
-betas_1 =  [beta(2);beta_gls(2);mean(hbeta_sample(:,2))];
-method = {<span class="string">'OLS'</span>;<span class="string">'FGLS'</span>;<span class="string">'Bootstrap'</span>};
-s_err = [se(2);se_gls(2);vars.SEbeta_hat_boot(2)];
+
+disp(<span class="string">'Using our functions'</span>)
+betas_1 =  [beta(2);NaN;beta_gls(2);mean(hbeta_sample(:,2))];
+method = {<span class="string">'OLS'</span>;<span class="string">'Newey West'</span>;<span class="string">'FGLS'</span>;<span class="string">'Bootstrap'</span>};
+s_err = [se(2);se_rob(2);se_gls(2);vars.SEbeta_hat_boot(2)];
+t = table(method,betas_1,s_err);
+disp(t)
+
+<span class="comment">% Lets compare with the matlab inbuilt functions:</span>
+[~,mse_rob,~] = hac(vars.x,vars.y,<span class="string">'type'</span>,<span class="string">'HAC'</span>,<span class="string">'bandwidth'</span>,floor(4*(par.n/100)^(2/9))+1,<span class="string">'weights'</span>,<span class="string">'BT'</span>,<span class="string">'display'</span>,<span class="string">'off'</span>);
+[coeff,se_gls] = fgls(vars.x,vars.y,<span class="string">'display'</span>,<span class="string">'off'</span>);
+m1 = fitlm(vars.x,vars.y);
+se_ols = m1.Coefficients.SE;
+coeff_ols = m1.Coefficients.Estimate;
+
+disp(<span class="string">'Results Using Inbuilt Matlab'</span>)
+betas_1 =  [coeff_ols(2);NaN;coeff(2)];
+method = {<span class="string">'OLS'</span>;<span class="string">'Newey West'</span>;<span class="string">'FGLS'</span>};
+s_err = [se_ols(2);mse_rob(2);se_gls(2)];
 t = table(method,betas_1,s_err);
 disp(t)
 </pre><p>End of Code</p><pre class="codeinput"><span class="comment">%---------------------------------------------------------</span>
@@ -313,7 +377,8 @@ disp(t)
         <span class="comment">% Tradicional heteroskedasticity</span>
         [~,~,e_ols] = my_ols(y, x);
         e_ols = e_ols.^2;
-        C = diag(1./ sqrt(e_ols));
+        <span class="comment">%C = diag(1./ sqrt(e_ols));</span>
+        C = chol(inv(diag(e_ols)));
         [beta,~,e,se] = my_ols(C*y, C*x);
     <span class="keyword">else</span>
         <span class="comment">% AR(1) Errors</span>
@@ -335,12 +400,12 @@ disp(t)
             <span class="keyword">end</span>
         <span class="keyword">end</span>
         <span class="comment">%sigma_e = factor.*sigma_e;</span>
-        C = chol(sigma_e);
+        C = chol(inv(sigma_e));
         [beta,~,e,se] = my_ols(C*y, C*x);
     <span class="keyword">end</span> <span class="comment">% end if</span>
 <span class="keyword">end</span>
 <span class="comment">%---------------------------------------------------------</span>
-<span class="keyword">function</span> [beta,sigma,e,se] = my_ols(y,x)
+<span class="keyword">function</span> [beta,sigma,e,se,se_rob] = my_ols(y,x)
 <span class="comment">%{
 </span><span class="comment">This function computes OLS estiamtes and
 </span><span class="comment">its standard errors
@@ -351,12 +416,19 @@ disp(t)
 </span><span class="comment">         e      Backed residuals
 </span><span class="comment">         se     Standard Errors
 </span><span class="comment">%}
-</span>    n = size(x,1);
+</span>    [n,k] = size(x);
     beta = x\y;
     sigma = (y-x*beta)'*(y-x*beta)/(n-rank(x));
     e = y - x*beta;
     VCV = (e'*e)/n*inv(x'*x);
     se = sqrt(diag(VCV));
+
+    <span class="comment">% Eicker-White se</span>
+   aux = x.*(kron(e.^2,ones(1,k)));
+	VCV_white = inv(x'*x) * x'*aux* inv(x'*x);
+
+
+    se_rob = sqrt(diag(VCV_white));
 <span class="keyword">end</span>
 <span class="comment">%---------------------------------------------------------</span>
 <span class="keyword">function</span> [value, pvalue] = my_white(e, x)
@@ -376,11 +448,36 @@ disp(t)
 	value = n*rsq;                  <span class="comment">% Statistic</span>
 	pvalue = 1 - chi2cdf(value,k);  <span class="comment">% Value</span>
 <span class="keyword">end</span>
-</pre><pre class="codeoutput">     method     betas_1     s_err  
-    ________    _______    ________
 
-    {'OLS' }    1.7845      0.13496
-    {'FGLS'}    1.7974     0.024771
+<span class="keyword">function</span> [se]= my_newey(e,x,lag)
+<span class="comment">%{
+</span><span class="comment">% Compute Newey West Standard errors
+</span><span class="comment">Input: e: residuals
+</span><span class="comment">       x: Matrix of regressors
+</span><span class="comment">       lag: number of langs
+</span><span class="comment">
+</span><span class="comment">%}
+</span>[N,k] = size(x);
+VT = 0;     <span class="comment">% This I will fill on a loop,</span>
+<span class="keyword">for</span> s = 0:lag
+    omega_s = 1-s/(lag+1);
+    <span class="keyword">for</span> t = s+1:N
+        <span class="keyword">if</span> (s==0)
+            VT = VT+e(t)^2*x(t,:)'*x(t,:);
+        <span class="keyword">else</span>        <span class="comment">% This calculates the off-diagonal terms</span>
+            VT = VT+omega_s*e(t)*e(t-s)*(x(t,:)'*x(t-s,:)+x(t-s,:)'*x(t,:));
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+VT = (1/(N-k)) .*VT;
+se = sqrt(diag(N.*(inv(x'*x)*VT*inv(x'*x))));
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">      method       betas_1      s_err  
+    ___________    _______    _________
+
+    {'OLS'    }    2.2279       0.11922
+    {'E-White'}       NaN       0.11104
+    {'FGLS'   }    2.2286     0.0060634
 
 </pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
@@ -397,9 +494,9 @@ disp(t)
 %
 % Consider the model
 %
-% $y_{i} = \beta_{0}+\beta_{1}x_{i}+\epsilon_{i}$
+% $y_{i} = \beta_{0}+\beta_{1}x1_{i}+\beta_{2}x2_{i}+\epsilon_{i}$
 %
-% $x\sim U[a,b]$   and   $\epsilon \sim \mathcal{N}(0,\Sigma)$
+% $x\sim \mathcal{N}(0,\sigma^{2})$   and   $\epsilon \sim \mathcal{N}(0,\Sigma)$
 %
 % $\Sigma=\left[\begin{array}{cccc} \sigma^{2}_{1}&0& \dots &0 \\ 0&\sigma^{2}_{2}&\dots&\vdots  \\ \vdots&\vdots&\ddots&\vdots \\ 0&\dots&0&\sigma^{2}_{n}  \end{array}\right]$
 
@@ -412,46 +509,40 @@ clc
 rng(123)
 
 % Parameters
+
 par.beta0 = 1;      % Intercept
 par.beta1 = 2;      % Slope
-par.sigma = 1;      % Standard deviation normal
-par.ub = 100;
-par.lb = 0; 
 par.n = 200;
 
 % Simulate the Data Generating process
 
-aux_z = rand(par.n,1)*7;
-
-% The standard deviation of e is 1 plus 1.5z 
-
-vars.eho = ((2)).*randn(par.n,1);
-vars.ehe = ((20+10*aux_z)).*randn(par.n,1);
-vars.x = unifrnd(par.lb,par.ub,par.n,1);
-
-vars.y = par.beta0 +par.beta1.*vars.x +vars.ehe;
+k = 3;
+vars.x = randn(par.n,k-1);
+vars.eho = (2) .* randn(par.n,1); % heteroscedastic errors
+vars.ehe = (1+vars.x(:,k-1)) .* randn(par.n,1); % heteroscedastic errors
+vars.y = par.beta0 + par.beta1.*vars.x(:,1)+ par.beta1.*vars.x(:,2)  + vars.ehe;
 
 %% 
 % Plot our conditional residuals
 
 figure(1)
 hold on
-plot(aux_z,vars.eho,'ko','MarkerFaceColor','k')
+plot(10+vars.x(:,k-1),vars.eho,'ko','MarkerFaceColor','k')
 yline(0)
 xlabel('$z$','interpreter','latex','Fontsize',16)
 ylabel('$\epsilon$','interpreter','latex','FontSize',16)
 title('Homoscedasticity')
 figure(2)
 hold on
-plot(aux_z,vars.ehe,'ko','MarkerFaceColor','k')
+plot(10+vars.x(:,k-1),vars.ehe,'ko','MarkerFaceColor','k')
 yline(0)
 xlabel('$z$','interpreter','latex','Fontsize',16)
 ylabel('$\epsilon$','interpreter','latex','Fontsize',16)
 title('Heteroscedasticity')
 
 % Estimate OLS
-[beta,sigma,e,se] = my_ols(vars.y,[ones(par.n,1),vars.x]);
-t=table(beta,se);
+[beta,sigma,e,se,se_rob] = my_ols(vars.y,[ones(par.n,1),vars.x]);
+t=table(beta,se,se_rob);
 disp(t)
 
 %%
@@ -472,7 +563,6 @@ title('Visual Inspection')
 [value, pvalue] = my_white(e,[ones(par.n,1),vars.x]);
 t = table(pvalue);
 disp(t)
-disp(t)
 if pvalue<0.05
     disp('Reject Homoscedasticity')
 else
@@ -484,9 +574,9 @@ end
 opt.het = 1;        % Heteroskedasticity
 [beta_gls,e,se_gls] = my_gls(vars.y,[ones(par.n,1),vars.x],opt);
 
-betas_1 =  [beta(2);beta_gls(2)];
-method = {'OLS';'FGLS'};
-s_err = [se(2);se_gls(2)];
+betas_1 =  [beta(2);NaN;beta_gls(2)];
+method = {'OLS';'E-White';'FGLS'};
+s_err = [se(2);se_rob(2);se_gls(2)];
 t = table(method,betas_1,s_err);
 disp(t)
 
@@ -495,14 +585,14 @@ disp(t)
 % Lets Compute Bootstrap SE
 %
 par.B = 1000;%
-par.K = 2;
+par.K = k;
 hbeta_sample =NaN(par.B,par.K);
-rng(234)
+
 for i = 1:par.B   
-    
-    I_sample = ceil(par.n*rand(1,par.n));
+    rng(i)
+    I_sample = ceil(par.n*rand(par.n,1));
     ysample = vars.y(I_sample);
-    xsample(:,1) = vars.x(I_sample,1);    
+    xsample = vars.x(I_sample,:);    
     
     hbeta_sample(i,:)  = ([ones(par.n,1),xsample]\ysample)';
 end
@@ -510,20 +600,37 @@ diff = hbeta_sample-repmat(beta',par.B,1);
 bootVCV = diff'*diff/par.B;
 vars.SEbeta_hat_boot = sqrt(diag(bootVCV));
 
-betas_1 =  [beta(2);beta_gls(2);mean(hbeta_sample(:,2))];
-method = {'OLS';'FGLS';'Bootstrap'};
-s_err = [se(2);se_gls(2);vars.SEbeta_hat_boot(2)];
+disp('Results Using Our Functions')
+betas_1 =  [beta(2);NaN;beta_gls(2);mean(hbeta_sample(:,2))];
+method = {'OLS';'E-White';'FGLS';'Bootstrap'};
+s_err = [se(2);se_rob(2);se_gls(2);vars.SEbeta_hat_boot(2)];
 t = table(method,betas_1,s_err);
 disp(t)
+
+% Lets compare with the matlab inbuilt functions:
+[~,mse_rob,~] = hac(vars.x,vars.y,'type','HC','display','off');
+[coeff,se_gls] = fgls(vars.x,vars.y,'innovMdl','HC0','display','off');
+m1 = fitlm(vars.x,vars.y);
+se_ols = m1.Coefficients.SE;
+coeff_ols = m1.Coefficients.Estimate;
+
+disp('Results Using Inbuilt Matlab')
+betas_1 =  [coeff_ols(2);NaN;coeff(2)];
+method = {'OLS';'E-White';'FGLS'};
+s_err = [se_ols(2);mse_rob(2);se_gls(2)];
+t = table(method,betas_1,s_err);
+disp(t)
+
+
 
 %%
 % *1.2: With Uniform Errors:*
 %
 % Consider the model
 %
-% $y_{i} = \beta_{0}+\beta_{1}x_{i}+\epsilon_{i}$
+% $y_{i} = \beta_{0}+\beta_{1}x1_{i}+\beta_{2}x2_{i}+\epsilon_{i}$
 %
-% $x\sim U[a,b]$   and   $\epsilon \sim U[-z,z]$
+% $x\sim \mathcal{N}(0,\sigma^{2})$   and   $\epsilon \sim U[-z,z]$
 %
 % Estimate OLS
 par.ub = 100;
@@ -535,7 +642,13 @@ vars.x(:,1) = unifrnd(par.lb,par.ub,par.n,1);
 vars.x(:,2) = aux_z;
 vars.y = par.beta0 +par.beta1.*vars.x(:,1) +par.beta1.*vars.x(:,2) +vars.ehe;
 
-[beta,sigma,e,se] = my_ols(vars.y,[ones(par.n,1),vars.x]);
+
+k = 3;
+%vars.x = randn(par.n,k-1);
+vars.ehe = (1+vars.x(:,k-1)) .*(rand(par.n,1)-0.5); % heteroscedastic errors
+vars.y = par.beta0 + par.beta1.*vars.x(:,1)+ par.beta1.*vars.x(:,2)  + vars.ehe;
+
+[beta,sigma,e,se,se_rob] = my_ols(vars.y,[ones(par.n,1),vars.x]);
 
 %%
 % Visual Inspection
@@ -567,12 +680,12 @@ end
 [beta_gls,~,se_gls] = my_gls(vars.y,[ones(par.n,1),vars.x],opt);
 
 par.B = 1000;%
-par.K = 3;
+par.K = k;
 hbeta_sample =NaN(par.B,par.K);
-rng(234)
+
 for i = 1:par.B   
-    
-    I_sample = ceil(par.n*rand(1,par.n));
+    rng(i)
+    I_sample = ceil(par.n*rand(par.n,1));
     ysample = vars.y(I_sample);
     xsample = vars.x(I_sample,:);    
     
@@ -582,11 +695,27 @@ diff = hbeta_sample-repmat(beta',par.B,1);
 bootVCV = diff'*diff/par.B;
 vars.SEbeta_hat_boot = sqrt(diag(bootVCV));
 
-betas_1 =  [beta(2);beta_gls(2);mean(hbeta_sample(:,2))];
-method = {'OLS';'FGLS';'Bootstrap'};
-s_err = [se(2);se_gls(2);vars.SEbeta_hat_boot(2)];
+disp('Results Using our own functions')
+betas_1 =  [beta(2);NaN;beta_gls(2);mean(hbeta_sample(:,2))];
+method = {'OLS';'E-White';'FGLS';'Bootstrap'};
+s_err = [se(2);se_rob(2);se_gls(2);vars.SEbeta_hat_boot(2)];
 t = table(method,betas_1,s_err);
 disp(t)
+
+% Lets compare with the matlab inbuilt functions:
+[~,mse_rob,~] = hac(vars.x,vars.y,'type','HC','display','off');
+[coeff,se_gls] = fgls(vars.x,vars.y,'innovMdl','HC0','display','off');
+m1 = fitlm(vars.x,vars.y);
+se_ols = m1.Coefficients.SE;
+coeff_ols = m1.Coefficients.Estimate;
+
+disp('Results Using Inbuilt Matlab')
+betas_1 =  [coeff_ols(2);NaN;coeff(2)];
+method = {'OLS';'E-White';'FGLS'};
+s_err = [se_ols(2);mse_rob(2);se_gls(2)];
+t = table(method,betas_1,s_err);
+disp(t)
+
 
 %% 
 % *Activity 2: Autocorrelated Errors*
@@ -603,18 +732,20 @@ disp(t)
 %
 % $\Sigma=\left[\begin{array}{ccccc} 1&\rho& \rho^{2}& \dots &\rho^{n-1} \\ \rho&1&\dots&\dots&\rho^{n-2}  \\ \rho^{2}&\vdots&1&\vdots&\vdots \\ \vdots&\vdots&\vdots&1&\rho \\ \rho^{n-1}&\dots&\dots&\dots&1  \end{array}\right]$
 
-par.rho = 0.7;
+par.rho = 0.9;
 vars.eau = NaN(par.n,1);
 vars.eau(1,1) = randn(1,1)/sqrt(1-par.rho^2);  % The trend of the AR(1) process
 for i = 2:par.n
     rng(12300+i)
-  vars.eau(i,1) = par.rho*vars.eau(i-1,1) + 0.1*randn(1,1); % 
+  vars.eau(i,1) = par.rho*vars.eau(i-1,1) + 5*randn(1,1); % 
 end
-vars.x = unifrnd(par.lb,par.ub,par.n,1);
-vars.y = par.beta0 +par.beta1.*vars.x +vars.eau;
+%par.ub = 100;
+%par.lb = 0; 
+%vars.x = unifrnd(par.lb,par.ub,par.n,1);
+vars.y = par.beta0 +par.beta1.*vars.x(:,1)+par.beta1.*vars.x(:,2) +vars.eau;
 
-[beta,sigma,e,se] = my_ols(vars.y,[ones(par.n,1),vars.x]);
-
+[beta,sigma,e,se,~] = my_ols(vars.y,[ones(par.n,1),vars.x]);
+se_rob=my_newey(e,[ones(par.n,1),vars.x],1);
 %%
 % Visual Inspection
 figure(5)
@@ -642,15 +773,15 @@ end
 %%
 % *Estimate GLS and Bootstrap SE*
 
-opt.het = 1;        
+opt.het = 0;        
 [beta_gls,e,se_gls] = my_gls(vars.y,[ones(par.n,1),vars.x],opt);
 par.B = 1000;%
-par.K = 2;
+par.K = k;
 hbeta_sample =NaN(par.B,par.K);
-rng(234)
+
 for i = 1:par.B   
-    
-    I_sample = ceil(par.n*rand(1,par.n));
+    rng(i)
+    I_sample = ceil(par.n*rand(par.n,1));
     ysample = vars.y(I_sample);
     xsample = vars.x(I_sample,:);    
     
@@ -659,11 +790,28 @@ end
 diff = hbeta_sample-repmat(beta',par.B,1);
 bootVCV = diff'*diff/par.B;
 vars.SEbeta_hat_boot = sqrt(diag(bootVCV));
-betas_1 =  [beta(2);beta_gls(2);mean(hbeta_sample(:,2))];
-method = {'OLS';'FGLS';'Bootstrap'};
-s_err = [se(2);se_gls(2);vars.SEbeta_hat_boot(2)];
+
+disp('Using our functions')
+betas_1 =  [beta(2);NaN;beta_gls(2);mean(hbeta_sample(:,2))];
+method = {'OLS';'Newey West';'FGLS';'Bootstrap'};
+s_err = [se(2);se_rob(2);se_gls(2);vars.SEbeta_hat_boot(2)];
 t = table(method,betas_1,s_err);
 disp(t)
+
+% Lets compare with the matlab inbuilt functions:
+[~,mse_rob,~] = hac(vars.x,vars.y,'type','HAC','bandwidth',floor(4*(par.n/100)^(2/9))+1,'weights','BT','display','off');
+[coeff,se_gls] = fgls(vars.x,vars.y,'display','off');
+m1 = fitlm(vars.x,vars.y);
+se_ols = m1.Coefficients.SE;
+coeff_ols = m1.Coefficients.Estimate;
+
+disp('Results Using Inbuilt Matlab')
+betas_1 =  [coeff_ols(2);NaN;coeff(2)];
+method = {'OLS';'Newey West';'FGLS'};
+s_err = [se_ols(2);mse_rob(2);se_gls(2)];
+t = table(method,betas_1,s_err);
+disp(t)
+
 
 
 %%
@@ -687,7 +835,8 @@ outputs: beta   OLS coefficients
         % Tradicional heteroskedasticity
         [~,~,e_ols] = my_ols(y, x);
         e_ols = e_ols.^2;
-        C = diag(1./ sqrt(e_ols));
+        %C = diag(1./ sqrt(e_ols));
+        C = chol(inv(diag(e_ols)));
         [beta,~,e,se] = my_ols(C*y, C*x);
     else
         % AR(1) Errors
@@ -709,12 +858,12 @@ outputs: beta   OLS coefficients
             end
         end
         %sigma_e = factor.*sigma_e;
-        C = chol(sigma_e);
+        C = chol(inv(sigma_e));
         [beta,~,e,se] = my_ols(C*y, C*x);
     end % end if
 end
 %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
-function [beta,sigma,e,se] = my_ols(y,x)
+function [beta,sigma,e,se,se_rob] = my_ols(y,x)
 %{
 This function computes OLS estiamtes and 
 its standard errors
@@ -725,12 +874,19 @@ outputs: beta   OLS coefficients
          e      Backed residuals
          se     Standard Errors
 %}
-    n = size(x,1);
+    [n,k] = size(x);
     beta = x\y;
     sigma = (y-x*beta)'*(y-x*beta)/(n-rank(x));
     e = y - x*beta;
     VCV = (e'*e)/n*inv(x'*x);
     se = sqrt(diag(VCV));
+    
+    % Eicker-White se
+   aux = x.*(kron(e.^2,ones(1,k)));
+	VCV_white = inv(x'*x) * x'*aux* inv(x'*x);
+    
+    
+    se_rob = sqrt(diag(VCV_white));
 end
 %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
 function [value, pvalue] = my_white(e, x)
@@ -749,6 +905,30 @@ function [value, pvalue] = my_white(e, x)
 	rsq = 1 - ESS / TSS;  % the r-square auxiliary	
 	value = n*rsq;                  % Statistic
 	pvalue = 1 - chi2cdf(value,k);  % Value
+end
+
+function [se]= my_newey(e,x,lag)
+%{
+% Compute Newey West Standard errors
+Input: e: residuals
+       x: Matrix of regressors
+       lag: number of langs 
+
+%}
+[N,k] = size(x);
+VT = 0;     % This I will fill on a loop, 
+for s = 0:lag
+    omega_s = 1-s/(lag+1);
+    for t = s+1:N
+        if (s==0)   
+            VT = VT+e(t)^2*x(t,:)'*x(t,:);
+        else        % This calculates the off-diagonal terms
+            VT = VT+omega_s*e(t)*e(t-s)*(x(t,:)'*x(t-s,:)+x(t-s,:)'*x(t,:));
+        end
+    end
+end
+VT = (1/(N-k)) .*VT;
+se = sqrt(diag(N.*(inv(x'*x)*VT*inv(x'*x))));
 end
 ##### SOURCE END #####
 --></body></html>
