@@ -13088,7 +13088,7 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=055cfdee"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=fa9fc023"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Econometrics-I">Econometrics I<a class="anchor-link" href="#Econometrics-I">¶</a></h1><pre><code>TA Christian Alemán
@@ -13100,7 +13100,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=ddcc6816">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=4214a4e4">
 <div class="input">
 <div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
@@ -13150,7 +13150,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=1eeb15a7"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=7032da11"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Activity 2: Kernel Density (Estimation)</strong></p>
@@ -13170,7 +13170,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=0b1a4956">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=8d657efd">
 <div class="input">
 <div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
@@ -13230,7 +13230,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=6d37de82"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=01523b71"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Simulate Data from any distribution</strong></p>
@@ -13241,20 +13241,15 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=7e2de44f">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=a10d78ab">
 <div class="input">
 <div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sim_gp</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">rng</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''Simulate from a Generalized Pareto via the inverse-CDF method.</span>
-
-<span class="sd">    Inputs</span>
-<span class="sd">    ------</span>
-<span class="sd">    n     : number of draws</span>
-<span class="sd">    k     : shape parameter (xi)</span>
-<span class="sd">    sigma : scale</span>
-<span class="sd">    theta : threshold / location</span>
+<span class="w">    </span><span class="sd">'''</span>
+<span class="sd">    This function simulates a vector data for the generalized Pareto using the inverse</span>
+<span class="sd">    CDF method:</span>
 <span class="sd">    '''</span>
     <span class="n">u</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sigma</span> <span class="o">/</span> <span class="n">k</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">theta</span>
@@ -13312,7 +13307,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5b37d3cd"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=300b5033"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Activity 3: Spurious relations</strong></p>
@@ -13320,7 +13315,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=dbef10c2">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=36e67b7f">
 <div class="input">
 <div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
@@ -13390,7 +13385,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=c6320fb9">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=0260bf72">
 <div class="input">
 <div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
@@ -13426,14 +13421,14 @@ div#notebook {
 </div>
 </div>
 <!--
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=d1b93c48"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=f068d177"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This markdown was constructed based on the IPYNB code below.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=a5bc38c0">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=9be37bb2">
 <div class="input">
 <div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
@@ -13511,14 +13506,9 @@ div#notebook {
 <span class="c1"># # ----- next cell -----</span>
 <span class="c1">#</span>
 <span class="c1"># def sim_gp(n, k, sigma, theta, rng):</span>
-<span class="c1">#     '''Simulate from a Generalized Pareto via the inverse-CDF method.</span>
-<span class="c1">#</span>
-<span class="c1">#     Inputs</span>
-<span class="c1">#     ------</span>
-<span class="c1">#     n     : number of draws</span>
-<span class="c1">#     k     : shape parameter (xi)</span>
-<span class="c1">#     sigma : scale</span>
-<span class="c1">#     theta : threshold / location</span>
+<span class="c1">#     '''</span>
+<span class="c1">#     This function simulates a vector data for the generalized Pareto using the inverse</span>
+<span class="c1">#     CDF method:</span>
 <span class="c1">#     '''</span>
 <span class="c1">#     u = rng.random(n)</span>
 <span class="c1">#     return sigma / k * ((1 - u) ** (-k) - 1) + theta</span>
