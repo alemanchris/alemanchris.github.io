@@ -13088,7 +13088,7 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=15dee856"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=2c63651b"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Econometrics-I">Econometrics I<a class="anchor-link" href="#Econometrics-I">¶</a></h1><pre><code>TA Christian Alemán
@@ -13107,7 +13107,7 @@ $$C^{*} = \frac{1}{1-b}[b(I_{0}+G_{0})+a]$$</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=fda94958">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=f59cce7b">
 <div class="input">
 <div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
@@ -13160,7 +13160,7 @@ Solution with linear algebra
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=29d361e5"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=613f984b"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Activity 2: Inverses and their properties</strong></p>
@@ -13190,7 +13190,7 @@ Solution with linear algebra
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=a2b4014b">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=80170519">
 <div class="input">
 <div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
@@ -13215,14 +13215,14 @@ Solution with linear algebra
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=6cde1d64"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=0a04c2c8"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A non-singular matrix — a classic $3\times3$ magic square, where every row, column, and diagonal sums to the same value:</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=6ad1e35f">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=ce1ea051">
 <div class="input">
 <div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
@@ -13258,7 +13258,7 @@ Solution with linear algebra
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=11010c8d"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=b005365f"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>2.2 Eigenvalues and Determinants</strong></p>
@@ -13270,7 +13270,7 @@ Solution with linear algebra
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=2df358ce">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=20cf9663">
 <div class="input">
 <div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
@@ -13285,10 +13285,10 @@ Solution with linear algebra
     <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">eig_val</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
     <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-13</span><span class="p">:</span>
         <span class="n">D</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="k">return</span> <span class="n">D</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Using the built-in function'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">X_mat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">Y_mat</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">X_mat</span><span class="p">)),</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">Y_mat</span><span class="p">))])</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Using our own function'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">([</span><span class="n">my_det</span><span class="p">(</span><span class="n">X_mat</span><span class="p">),</span> <span class="n">my_det</span><span class="p">(</span><span class="n">Y_mat</span><span class="p">)])</span>
@@ -13302,16 +13302,16 @@ Solution with linear algebra
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Using the built-in function
-[np.float64(0.0), np.float64(-359.9999999999997)]
+[0.0, -359.9999999999997]
 Using our own function
-[0.0, np.float64(-360.00000000000057)]
+[0.0, -360.00000000000057]
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=60851bc2"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=68e461b6"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>2.3 The rank of a matrix</strong></p>
@@ -13322,7 +13322,7 @@ Using our own function
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=380c80c4">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=a1d0f168">
 <div class="input">
 <div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
@@ -13354,10 +13354,10 @@ Using our own function
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Input matrix not a square matrix.'</span><span class="p">)</span>
     <span class="n">ech_mat</span> <span class="o">=</span> <span class="n">rref</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">sum_ech_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ech_mat</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">n</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sum_ech_mat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sum_ech_mat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Using the built-in function'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">X_mat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">Y_mat</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">X_mat</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">Y_mat</span><span class="p">))])</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Using our own function'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">([</span><span class="n">my_rank</span><span class="p">(</span><span class="n">X_mat</span><span class="p">),</span> <span class="n">my_rank</span><span class="p">(</span><span class="n">Y_mat</span><span class="p">)])</span>
@@ -13371,16 +13371,16 @@ Using our own function
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Using the built-in function
-[np.int64(2), np.int64(3)]
+[2, 3]
 Using our own function
-[np.int64(2), np.int64(3)]
+[2, 3]
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=e164b5b8"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c73dbe5b"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>2.4 The inverse of a Matrix (if it exists)</strong></p>
@@ -13388,7 +13388,7 @@ Using our own function
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=e58c3d6c">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=ed576de3">
 <div class="input">
 <div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
@@ -13412,14 +13412,14 @@ Using our own function
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=941a21b0"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=1f22f72d"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Using our own function:</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=2311b0b5">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=5d80b493">
 <div class="input">
 <div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
@@ -13467,7 +13467,7 @@ Using our own function
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=fba33cdb"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c2a05927"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>2.5 Symmetric and Idempotent Matrices</strong></p>
@@ -13482,7 +13482,7 @@ Using our own function
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=14a16961">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=6153489c">
 <div class="input">
 <div class="prompt input_prompt">In [8]:</div>
 <div class="inner_cell">
@@ -13522,7 +13522,7 @@ Using our own function
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=fb3f89dd"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=82554c7b"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Activity 3: Least Squares Estimation</strong></p>
@@ -13531,7 +13531,7 @@ Using our own function
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=b750c355">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=f9770490">
 <div class="input">
 <div class="prompt input_prompt">In [9]:</div>
 <div class="inner_cell">
@@ -13552,13 +13552,19 @@ Using our own function
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'X and y do not have the same length'</span><span class="p">)</span>
     <span class="n">N</span> <span class="o">=</span> <span class="n">Nx</span>
 
+    <span class="c1"># Coefficients:</span>
     <span class="n">beta_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span>
+    <span class="c1"># Predicted values:</span>
     <span class="n">y_hat</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">beta_hat</span>
+    <span class="c1"># Residuals:</span>
     <span class="n">e_hat</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y_hat</span>
-
+    <span class="c1"># Total Variation of the dependent variable</span>
     <span class="n">SST</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="c1"># (SSE) Sum Squared Residuals</span>
     <span class="n">SSE</span> <span class="o">=</span> <span class="n">e_hat</span> <span class="o">@</span> <span class="n">e_hat</span>
-    <span class="n">R2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">SSE</span> <span class="o">/</span> <span class="n">SST</span>
+    <span class="c1"># SSR/SST or "r-squared" is the ratio of the variation in y explained by the model and the total variation of y</span>
+    <span class="n">R2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">SSE</span> <span class="o">/</span> <span class="n">SST</span><span class="p">)</span>
+    <span class="c1"># Adjusted "r-squared".</span>
     <span class="n">R2A</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">SSE</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="n">K</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">SST</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">sigma2_hat</span> <span class="o">=</span> <span class="n">SSE</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="n">K</span><span class="p">)</span>
 
@@ -13604,7 +13610,7 @@ OLS estimates: standard library implementation
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=24800cda">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=3b30c715">
 <div class="input">
 <div class="prompt input_prompt">In [10]:</div>
 <div class="inner_cell">
@@ -13631,7 +13637,7 @@ OLS estimates: standard library implementation
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a38489a5"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ce391194"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Activity 4: Symbolic algebra</strong></p>
@@ -13640,7 +13646,7 @@ OLS estimates: standard library implementation
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=7276acea">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=9b67d6e2">
 <div class="input">
 <div class="prompt input_prompt">In [11]:</div>
 <div class="inner_cell">
@@ -13724,14 +13730,14 @@ OLS estimates: standard library implementation
 </div>
 </div>
 <!--
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=843bdd65"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=fc0ae481"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This markdown was constructed based on the IPYNB code below.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=a76b2627">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=02e545bb">
 <div class="input">
 <div class="prompt input_prompt">In [12]:</div>
 <div class="inner_cell">
@@ -13802,10 +13808,10 @@ OLS estimates: standard library implementation
 <span class="c1">#     D = np.prod(eig_val).real</span>
 <span class="c1">#     if abs(D) &lt; 1e-13:</span>
 <span class="c1">#         D = 0.0</span>
-<span class="c1">#     return D</span>
+<span class="c1">#     return float(D)</span>
 <span class="c1">#</span>
 <span class="c1"># print('Using the built-in function')</span>
-<span class="c1"># print([np.linalg.det(X_mat), np.linalg.det(Y_mat)])</span>
+<span class="c1"># print([float(np.linalg.det(X_mat)), float(np.linalg.det(Y_mat))])</span>
 <span class="c1">#</span>
 <span class="c1"># print('Using our own function')</span>
 <span class="c1"># print([my_det(X_mat), my_det(Y_mat)])</span>
@@ -13840,10 +13846,10 @@ OLS estimates: standard library implementation
 <span class="c1">#         raise ValueError('Input matrix not a square matrix.')</span>
 <span class="c1">#     ech_mat = rref(X)</span>
 <span class="c1">#     sum_ech_mat = np.sum(np.abs(ech_mat), axis=1)</span>
-<span class="c1">#     return n - np.sum(sum_ech_mat == 0)</span>
+<span class="c1">#     return int(n - np.sum(sum_ech_mat == 0))</span>
 <span class="c1">#</span>
 <span class="c1"># print('Using the built-in function')</span>
-<span class="c1"># print([np.linalg.matrix_rank(X_mat), np.linalg.matrix_rank(Y_mat)])</span>
+<span class="c1"># print([int(np.linalg.matrix_rank(X_mat)), int(np.linalg.matrix_rank(Y_mat))])</span>
 <span class="c1">#</span>
 <span class="c1"># print('Using our own function')</span>
 <span class="c1"># print([my_rank(X_mat), my_rank(Y_mat)])</span>
@@ -13923,13 +13929,19 @@ OLS estimates: standard library implementation
 <span class="c1">#         raise ValueError('X and y do not have the same length')</span>
 <span class="c1">#     N = Nx</span>
 <span class="c1">#</span>
+<span class="c1">#     # Coefficients:</span>
 <span class="c1">#     beta_hat = np.linalg.inv(X.T @ X) @ (X.T @ y)</span>
+<span class="c1">#     # Predicted values:</span>
 <span class="c1">#     y_hat = X @ beta_hat</span>
+<span class="c1">#     # Residuals:</span>
 <span class="c1">#     e_hat = y - y_hat</span>
-<span class="c1">#</span>
+<span class="c1">#     # Total Variation of the dependent variable</span>
 <span class="c1">#     SST = (y - y.mean()) @ (y - y.mean())</span>
+<span class="c1">#     # (SSE) Sum Squared Residuals</span>
 <span class="c1">#     SSE = e_hat @ e_hat</span>
-<span class="c1">#     R2 = 1 - SSE / SST</span>
+<span class="c1">#     # SSR/SST or "r-squared" is the ratio of the variation in y explained by the model and the total variation of y</span>
+<span class="c1">#     R2 = 1 - (SSE / SST)</span>
+<span class="c1">#     # Adjusted "r-squared".</span>
 <span class="c1">#     R2A = 1 - (SSE / (N - K)) / (SST / (N - 1))</span>
 <span class="c1">#     sigma2_hat = SSE / (N - K)</span>
 <span class="c1">#</span>
